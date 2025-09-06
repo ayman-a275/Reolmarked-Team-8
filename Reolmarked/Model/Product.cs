@@ -18,9 +18,9 @@ namespace Reolmarked.Model
 
         public Product(string productSerialNumber, decimal productPrice, int rackNumber)
         {
-            _productSerialNumber = productSerialNumber;
-            _productPrice = productPrice;
-            _rackNumber = rackNumber;
+            ProductSerialNumber = productSerialNumber;
+            ProductPrice = productPrice;
+            RackNumber = rackNumber;
         }
 
         [Key]

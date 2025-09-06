@@ -15,33 +15,13 @@ using System.Windows.Interop;
 
 namespace Reolmarked.ViewModel
 {
-    public class AddProductViewModel
+    public class RackViewModel
     {
-        public ObservableCollection<Product> Products { get; set; }
-        private string _productSerialNumber;
-        private decimal _productPrice;
+        public ObservableCollection<Rack> Racks { get; set; }
         private int _rackNumber;
-        public ICommand AddProductBtnClickCommand { get; }
-
-        public string ProductSerialNumber
-        {
-            get => _productSerialNumber;
-            set
-            {
-                _productSerialNumber = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public decimal ProductPrice
-        {
-            get => _productPrice;
-            set
-            {
-                _productPrice = value;
-                OnPropertyChanged();
-            }
-        }
+        private decimal _rackPrice;
+        public ICommand AddRackBtnClickCommand { get; }
+        public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
 
         public int RackNumber
         {
@@ -53,25 +33,33 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public AddProductViewModel()
+        public decimal RackPrice
         {
-            var connectionString = App.Configuration.GetConnectionString("DefaultConnection");
-            using var context = new AppDbContext(connectionString);
-            Products = new ObservableCollection<Product>(context.Product.ToList()); 
-            AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
+            get => _rackPrice;
+            set
+            {
+                _rackPrice = value;
+                OnPropertyChanged();
+            }
         }
 
-        private async void AddProductBtnClick()
+        public RackViewModel()
         {
-            var newProduct = new Product(ProductSerialNumber, ProductPrice, RackNumber);
-            Products.Add(newProduct);
+            using var context = new AppDbContext(connectionString);
+            Racks = new ObservableCollection<Rack>(context.Rack.ToList());
+            AddRackBtnClickCommand = new RelayCommand(AddRackBtnClick);
+        }
+
+        private async void AddRackBtnClick()
+        {
+            var newRack = new Rack(RackNumber, RackPrice);
+            Racks.Add(newRack);
 
             try
             {
                 await Task.Run(() =>
                 {
-                    var dbProduct = new Product(ProductSerialNumber, ProductPrice, RackNumber);
-                    var connectionString = App.Configuration.GetConnectionString("DefaultConnection");
+                    var dbRack = new Rack(RackNumber, RackPrice);
 
                     if (string.IsNullOrWhiteSpace(connectionString))
                     {
@@ -80,14 +68,14 @@ namespace Reolmarked.ViewModel
 
                     using (var db = new AppDbContext(connectionString))
                     {
-                        db.Product.Add(dbProduct);
+                        db.Rack.Add(dbRack);
                         db.SaveChanges();
                     }
                 });
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error adding product to database: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error adding rack to database: {ex.Message}");
             }
         }
 

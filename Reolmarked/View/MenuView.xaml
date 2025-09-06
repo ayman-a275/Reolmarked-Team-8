@@ -17,10 +17,11 @@
     <Grid>
         <Border BorderThickness="1" Background="#f8f8f8" BorderBrush="#cccccc">
             <StackPanel>
-                <Label Content="Produkt" Margin="10" FontWeight="Bold" Foreground="#666666"/>
-                <Button Content="Tilføj Produkt" Margin="10" HorizontalAlignment="Left" Width="90"/>
-                <Button Content="Produktoversigt" Margin="10" HorizontalAlignment="Left" Width="90"/>
-            
+                <Label Content="Menu" Margin="10" FontWeight="Bold" Foreground="#666666"/>
+                <Button x:Name="ProductBtn" Content="Products" Margin="5"/>
+                <Button x:Name="RackBtn" Content="Racks" Margin="5"/>
+                <Button x:Name="PaymentBtn" Content="Payment" Margin="5 250"/>
+
             </StackPanel>
         </Border>
 

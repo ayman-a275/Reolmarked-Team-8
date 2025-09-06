@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal">
             <view:MenuView x:Name="MenuView" />
-            <view:AddProduct x:Name="AddProduct" Width="541" />
+            <ContentControl x:Name="MainContent" Width="541"/>
         </StackPanel>
         
     </Grid>

@@ -20,7 +20,23 @@ namespace Reolmarked.View
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new AddProductViewModel();
+            MenuView.ProductBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new ProductView();
+                DataContext = new ProductViewModel();
+            };
+
+            MenuView.RackBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new RackView();
+                DataContext = new RackViewModel();
+            };
+
+            MenuView.PaymentBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new PaymentView();
+                DataContext = new PaymentViewModel();
+            };
         }
     }
 }

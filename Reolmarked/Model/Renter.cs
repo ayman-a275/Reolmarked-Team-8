@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Reolmarked.Model
 {
-    class Renter
+    public class Renter
     {
         int _renterId;
         string _renterName;

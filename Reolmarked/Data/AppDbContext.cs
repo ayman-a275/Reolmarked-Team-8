@@ -11,6 +11,7 @@ namespace Reolmarked.Data
     public class AppDbContext : DbContext
     {
         public DbSet<Product> Product { get; set; }
+        public DbSet<Rack> Rack { get; set; }
 
         private readonly string _connectionString;
 
