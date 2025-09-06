@@ -1,4 +1,6 @@
-﻿using Reolmarked.Command;
+﻿using Microsoft.Extensions.Configuration;
+using Reolmarked.Command;
+using Reolmarked.Data;
 using Reolmarked.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace Reolmarked.ViewModel
 {
@@ -17,6 +20,7 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<Product> Products { get; set; }
         private string _productSerialNumber;
         private decimal _productPrice;
+        private int _rackNumber;
         public ICommand AddProductBtnClickCommand { get; }
 
         public string ProductSerialNumber
@@ -39,17 +43,52 @@ namespace Reolmarked.ViewModel
             }
         }
 
+        public int RackNumber
+        {
+            get => _rackNumber;
+            set
+            {
+                _rackNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AddProductViewModel()
         {
-            Products = new() {
-                new Product("dskdfj22", 22)
-            };
+            var connectionString = App.Configuration.GetConnectionString("DefaultConnection");
+            using var context = new AppDbContext(connectionString);
+            Products = new ObservableCollection<Product>(context.Product.ToList()); 
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
         }
 
-        private void AddProductBtnClick()
+        private async void AddProductBtnClick()
         {
-            Products.Add(new Product(ProductSerialNumber, ProductPrice));
+            var newProduct = new Product(ProductSerialNumber, ProductPrice, RackNumber);
+            Products.Add(newProduct);
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var dbProduct = new Product(ProductSerialNumber, ProductPrice, RackNumber);
+                    var connectionString = App.Configuration.GetConnectionString("DefaultConnection");
+
+                    if (string.IsNullOrWhiteSpace(connectionString))
+                    {
+                        throw new InvalidOperationException("Database connection string is null or empty.");
+                    }
+
+                    using (var db = new AppDbContext(connectionString))
+                    {
+                        db.Product.Add(dbProduct);
+                        db.SaveChanges();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adding product to database: {ex.Message}");
+            }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
