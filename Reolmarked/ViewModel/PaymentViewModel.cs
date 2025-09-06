@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -22,11 +23,13 @@ namespace Reolmarked.ViewModel
         private string _productSerialNumber;
         private decimal _productsTotalPrice;
         private decimal _paymentChange;
+        private decimal? _paidPrice;
+        private bool _chosenPaymentMethod;
+        public string _selectedPaymentMethod;
         public ICommand AddProductToPaymentBtnClickCommand { get; }
         public ICommand PayBtnClickCommand { get; }
         public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
         public List<string> PaymentMethod { get; set; }
-        public string SelectedPaymentMethod { get; set; }
 
         public string ProductSerialNumber
         {
@@ -54,6 +57,37 @@ namespace Reolmarked.ViewModel
             set
             {
                 _paymentChange = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal? PaidPrice
+        {
+            get => _paidPrice;
+            set
+            {
+                _paidPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SelectedPaymentMethod
+        {
+            get => _selectedPaymentMethod;
+            set
+            {
+                _selectedPaymentMethod = value;
+                OnPropertyChanged();
+                ChangedPaymentMethod();
+            }
+        }
+
+        public bool ChosenPaymentMethod
+        {
+            get => _chosenPaymentMethod;
+            set
+            {
+                _chosenPaymentMethod = value;
                 OnPropertyChanged();
             }
         }
@@ -86,8 +120,22 @@ namespace Reolmarked.ViewModel
             else if(SelectedPaymentMethod == "Kontant")
             {
                 ProductsToPay.Clear();
+                MessageBox.Show($"Byttepenge: {PaymentChange = (decimal)(PaidPrice - ProductsTotalPrice)}", "Byttepenge", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 ProductsTotalPrice = 0;
-                PaymentChange = 15;
+                PaidPrice = null;
+            }
+        }
+
+        private void ChangedPaymentMethod()
+        {
+            if (SelectedPaymentMethod == "MobilePay")
+            {
+                PaidPrice = null;
+                ChosenPaymentMethod = false;
+            }
+            else if (SelectedPaymentMethod == "Kontant")
+            {
+                ChosenPaymentMethod = true;
             }
         }
 

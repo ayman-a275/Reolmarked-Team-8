@@ -9,15 +9,15 @@
     <Grid>
         <Label Content="Serie nummer" HorizontalAlignment="Left" Margin="98,18,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="221"/>
-        <Button Command="{Binding PayBtnClickCommand}" Content="Betal" HorizontalAlignment="Left" Margin="96,310,0,0" VerticalAlignment="Top" Width="94"/>
+        <Button Command="{Binding PayBtnClickCommand}" Content="Betal" HorizontalAlignment="Left" Margin="98,395,0,0" VerticalAlignment="Top" Width="94"/>
         <DataGrid ItemsSource="{Binding ProductsToPay}" Margin="253,100,36,174"/>
         <Label Content="Total Pris" HorizontalAlignment="Left" Margin="269,291,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding ProductsTotalPrice, Mode=OneWay, StringFormat=C}" HorizontalAlignment="Left" Margin="267,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220"/>
         <Button Command="{Binding AddProductToPaymentBtnClickCommand}" Content="Tilføj vare til betaling" HorizontalAlignment="Left" Margin="98,100,0,0" VerticalAlignment="Top" Width="127"/>
         <Label Content="Betalingsmetode" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Center"/>
         <ComboBox ItemsSource="{Binding PaymentMethod, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedPaymentMethod, Mode=TwoWay}" HorizontalAlignment="Left" Margin="98,243,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Byttepenge" HorizontalAlignment="Left" Margin="271,359,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding PaymentChange, Mode=OneWay, StringFormat=C}" HorizontalAlignment="Left" Margin="269,395,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220"/>
+        <Label Content="Betalt beløb" HorizontalAlignment="Left" Margin="97,291,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox Text="{Binding PaidPrice}" IsEnabled="{Binding ChosenPaymentMethod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
 
     </Grid>
 </UserControl>
