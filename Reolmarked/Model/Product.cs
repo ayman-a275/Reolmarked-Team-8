@@ -14,12 +14,19 @@ namespace Reolmarked.Model
     {
         private string _productSerialNumber;
         private decimal _productPrice;
+        private bool _productSold;
         private int _rackNumber;
+
+        public Product()
+        {
+            // Needed by EF Core
+        }
 
         public Product(string productSerialNumber, decimal productPrice, int rackNumber)
         {
             ProductSerialNumber = productSerialNumber;
             ProductPrice = productPrice;
+            ProductSold = false;
             RackNumber = rackNumber;
         }
 
@@ -39,6 +46,16 @@ namespace Reolmarked.Model
             set
             {
                 _productPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ProductSold
+        {
+            get => _productSold;
+            set
+            {
+                _productSold = value;
                 OnPropertyChanged();
             }
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Reolmarked.Model
 {
-    class Transaction
+    public class Transaction
     {
         int _transactionId;
         DateTime _transactionDateTime;
@@ -15,13 +15,12 @@ namespace Reolmarked.Model
         string _transactionPaymentMethod;
         decimal _transactionChange;
 
-        public Transaction(int transactionId, DateTime transactionDateTime, decimal transactionPayment, string transactionPaymentMethod, decimal transactionChange)
+        public Transaction(DateTime transactionDateTime, decimal transactionPayment, string transactionPaymentMethod, decimal transactionChange)
         {
-            _transactionId = transactionId;
-            _transactionDateTime = transactionDateTime;
-            _transactionPayment = transactionPayment;
-            _transactionPaymentMethod = transactionPaymentMethod;
-            _transactionChange = transactionChange;
+            TransactionDateTime = transactionDateTime;
+            TransactionPayment = transactionPayment;
+            TransactionPaymentMethod = transactionPaymentMethod;
+            TransactionChange = transactionChange;
         }
 
         [Key]
@@ -40,6 +39,15 @@ namespace Reolmarked.Model
             set
             {
                 _transactionDateTime = value;
+            }
+        }
+
+        public decimal TransactionPayment
+        {
+            get => _transactionPayment;
+            set
+            {
+                _transactionPayment = value;
             }
         }
 

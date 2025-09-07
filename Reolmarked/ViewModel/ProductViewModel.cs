@@ -59,7 +59,7 @@ namespace Reolmarked.ViewModel
         public ProductViewModel()
         {
             using var context = new AppDbContext(connectionString);
-            Products = new ObservableCollection<Product>(context.Product.ToList());
+            Products = new ObservableCollection<Product>(context.Product.Where(p => p.ProductSold == false).ToList());
             Racks = new ObservableCollection<Rack>(context.Rack.ToList());
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
         }

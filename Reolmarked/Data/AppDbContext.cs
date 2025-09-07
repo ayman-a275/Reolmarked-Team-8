@@ -13,6 +13,10 @@ namespace Reolmarked.Data
         public DbSet<Product> Product { get; set; }
         public DbSet<Rack> Rack { get; set; }
 
+        public DbSet<Transaction> Transaction { get; set; }
+
+        public DbSet<TransactionLine> TransactionLine { get; set; }
+
         private readonly string _connectionString;
 
         public AppDbContext(string connectionString)

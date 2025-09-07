@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -14,13 +15,13 @@ namespace Reolmarked.Model
         int _transactionId;
         string _productSerialNumber;
 
-        public TransactionLine(int transactionLineId, int transactionId, string productSerialNumber)
+        public TransactionLine(int transactionId, string productSerialNumber)
         {
-            TransactionLineId = transactionLineId;
             TransactionId = transactionId;
             ProductSerialNumber = productSerialNumber;
         }
 
+        [Key]
         public int TransactionLineId
         {
             get => _transactionLineId;

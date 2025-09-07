@@ -115,14 +115,34 @@ namespace Reolmarked.ViewModel
             using var context = new AppDbContext(connectionString);
             if(SelectedPaymentMethod == "MobilePay")
             {
-                //context.Transaction.Add(new Transaction())
+                var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, SelectedPaymentMethod, 0);
+                context.Transaction.Add(newTransaction);
+                context.SaveChanges();
+                foreach (Product newProduct in ProductsToPay)
+                {
+                    context.TransactionLine.Add(new TransactionLine(newTransaction.TransactionId, newProduct.ProductSerialNumber));
+                    var productToChange = context.Product.FirstOrDefault(p => p.ProductSerialNumber == newProduct.ProductSerialNumber);
+                    productToChange.ProductSold = true;
+                }
+                context.SaveChanges();
                 ProductsToPay.Clear();
                 ProductsTotalPrice = 0;
             }
             else if(SelectedPaymentMethod == "Kontant")
             {
+                PaymentChange = (decimal)(PaidPrice - ProductsTotalPrice);
+                var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, SelectedPaymentMethod, PaymentChange);
+                context.Transaction.Add(newTransaction);
+                context.SaveChanges();
+                foreach (Product newProduct in ProductsToPay)
+                {
+                    context.TransactionLine.Add(new TransactionLine(newTransaction.TransactionId, newProduct.ProductSerialNumber));
+                    var productToChange = context.Product.FirstOrDefault(p => p.ProductSerialNumber == newProduct.ProductSerialNumber);
+                    productToChange.ProductSold = true;
+                }
+                context.SaveChanges();
                 ProductsToPay.Clear();
-                MessageBox.Show($"Byttepenge: {PaymentChange = (decimal)(PaidPrice - ProductsTotalPrice)}", "Byttepenge", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show($"Byttepenge: {PaymentChange}", "Byttepenge", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 ProductsTotalPrice = 0;
                 PaidPrice = null;
             }
