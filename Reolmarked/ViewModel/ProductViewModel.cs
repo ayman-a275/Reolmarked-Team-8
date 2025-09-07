@@ -80,11 +80,10 @@ namespace Reolmarked.ViewModel
                         throw new InvalidOperationException("Database connection string is null or empty.");
                     }
 
-                    using (var db = new AppDbContext(connectionString))
-                    {
-                        db.Product.Add(dbProduct);
-                        db.SaveChanges();
-                    }
+                    using var context = new AppDbContext(connectionString);
+                    context.Product.Add(dbProduct);
+                    context.SaveChanges();
+
                 });
             }
             catch (Exception ex)

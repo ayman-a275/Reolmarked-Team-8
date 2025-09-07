@@ -18,9 +18,12 @@
         <Border BorderThickness="1" Background="#f8f8f8" BorderBrush="#cccccc">
             <StackPanel>
                 <Label Content="Menu" Margin="10" FontWeight="Bold" Foreground="#666666"/>
-                <Button x:Name="ProductBtn" Content="Products" Margin="5"/>
-                <Button x:Name="RackBtn" Content="Racks" Margin="5"/>
-                <Button x:Name="PaymentBtn" Content="Payment" Margin="5 250"/>
+                <Button x:Name="ProductBtn" Content="Vare" Margin="5"/>
+                <Button x:Name="RackBtn" Content="Reol" Margin="5"/>
+                <Button Content="Lejer" Margin="5"/>
+                <Button x:Name="PaymentBtn" Content="Betaling" Margin="5 175 5 5"/>
+                <Button Content="Betalingsoversigt" Margin="5"/>
+                <Button Content="Log ud" Margin="5 45 5 5"/>
 
             </StackPanel>
         </Border>

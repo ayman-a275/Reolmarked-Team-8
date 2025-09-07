@@ -112,8 +112,10 @@ namespace Reolmarked.ViewModel
 
         private void PayBtnClick()
         {
+            using var context = new AppDbContext(connectionString);
             if(SelectedPaymentMethod == "MobilePay")
             {
+                //context.Transaction.Add(new Transaction())
                 ProductsToPay.Clear();
                 ProductsTotalPrice = 0;
             }

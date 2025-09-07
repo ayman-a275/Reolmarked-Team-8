@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Reolmarked.Model
             _transactionChange = transactionChange;
         }
 
+        [Key]
         public int TransactionId
         {
             get => _transactionId;
