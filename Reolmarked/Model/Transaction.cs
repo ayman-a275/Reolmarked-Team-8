@@ -11,16 +11,16 @@ namespace Reolmarked.Model
     {
         int _transactionId;
         DateTime _transactionDateTime;
-        decimal _transactionPayment;
-        string _transactionPaymentMethod;
-        decimal _transactionChange;
+        decimal _transactionTotalAmount;
+        decimal _transactionPaidAmount;
+        int _paymentMethodId;
 
-        public Transaction(DateTime transactionDateTime, decimal transactionPayment, string transactionPaymentMethod, decimal transactionChange)
+        public Transaction(DateTime transactionDateTime, decimal transactionTotalAmount, decimal transactionPaidAmount, int paymentMethodId)
         {
             TransactionDateTime = transactionDateTime;
-            TransactionPayment = transactionPayment;
-            TransactionPaymentMethod = transactionPaymentMethod;
-            TransactionChange = transactionChange;
+            TransactionTotalAmount = transactionTotalAmount;
+            TransactionPaidAmount = transactionPaidAmount;
+            PaymentMethodId = paymentMethodId;
         }
 
         [Key]
@@ -42,30 +42,30 @@ namespace Reolmarked.Model
             }
         }
 
-        public decimal TransactionPayment
+        public decimal TransactionTotalAmount
         {
-            get => _transactionPayment;
+            get => _transactionTotalAmount;
             set
             {
-                _transactionPayment = value;
+                _transactionTotalAmount = value;
             }
         }
 
-        public string TransactionPaymentMethod
+        public decimal TransactionPaidAmount
         {
-            get => _transactionPaymentMethod;
+            get => _transactionPaidAmount;
             set
             {
-                _transactionPaymentMethod = value;
+                _transactionPaidAmount = value;
             }
         }
 
-        public decimal TransactionChange
+        public int PaymentMethodId
         {
-            get => _transactionChange;
+            get => _paymentMethodId;
             set
             {
-                _transactionChange = value;
+                _paymentMethodId = value;
             }
         }
     }

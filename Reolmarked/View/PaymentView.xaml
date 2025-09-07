@@ -15,9 +15,9 @@
         <TextBox Text="{Binding ProductsTotalPrice, Mode=OneWay, StringFormat=C}" HorizontalAlignment="Left" Margin="267,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220"/>
         <Button Command="{Binding AddProductToPaymentBtnClickCommand}" Content="Tilføj vare til betaling" HorizontalAlignment="Left" Margin="98,100,0,0" VerticalAlignment="Top" Width="127"/>
         <Label Content="Betalingsmetode" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Center"/>
-        <ComboBox ItemsSource="{Binding PaymentMethod, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedPaymentMethod, Mode=TwoWay}" HorizontalAlignment="Left" Margin="98,243,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox ItemsSource="{Binding PaymentMethods, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="PaymentMethodName" SelectedValuePath="PaymentMethodId" SelectedValue="{Binding PaymentMethodId, Mode=TwoWay}" HorizontalAlignment="Left" Margin="98,243,0,0" VerticalAlignment="Top" Width="120"/>
         <Label Content="Betalt beløb" HorizontalAlignment="Left" Margin="97,291,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox Text="{Binding PaidPrice}" IsEnabled="{Binding ChosenPaymentMethod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
+        <TextBox Text="{Binding PaymentPaidAmount}" HorizontalAlignment="Left" Margin="96,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
 
     </Grid>
 </UserControl>

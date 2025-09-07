@@ -9,12 +9,13 @@
     <Grid>
         <Label Content="Reol nummer" HorizontalAlignment="Left" Margin="96,21,0,0" VerticalAlignment="Top"/>
         <Label Content="Serie nummer" HorizontalAlignment="Left" Margin="96,102,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="221"/>
+        <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" HorizontalAlignment="Left" Margin="96,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="221"/>
         <Label Content="Pris" HorizontalAlignment="Left" Margin="96,189,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding ProductPrice, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
         <Button Command="{Binding AddProductBtnClickCommand}" Content="Tilføj Produkt" HorizontalAlignment="Left" Margin="96,310,0,0" VerticalAlignment="Top" Width="94"/>
         <DataGrid ItemsSource="{Binding Products}" Margin="253,189,36,13"/>
         <ComboBox ItemsSource="{Binding Racks}" DisplayMemberPath="RackNumber" SelectedValuePath="RackNumber" SelectedValue="{Binding SelectedRackNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,52,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Command="{Binding GenerateBarCodeBtnClickCommand}" Content="Generere ny stregkode" HorizontalAlignment="Left" Margin="356,137,0,0" VerticalAlignment="Top" Width="136"/>
 
     </Grid>
 </UserControl>

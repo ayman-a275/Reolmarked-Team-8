@@ -20,16 +20,14 @@ namespace Reolmarked.ViewModel
     public class PaymentViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Product> ProductsToPay { get; set; }
+        public ObservableCollection<PaymentMethod> PaymentMethods { get; set; }
+        public int PaymentMethodId { get; set; }
         private string _productSerialNumber;
         private decimal _productsTotalPrice;
-        private decimal _paymentChange;
-        private decimal? _paidPrice;
-        private bool _chosenPaymentMethod;
-        public string _selectedPaymentMethod;
+        private decimal _paymentPaidAmount;
         public ICommand AddProductToPaymentBtnClickCommand { get; }
         public ICommand PayBtnClickCommand { get; }
         public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
-        public List<string> PaymentMethod { get; set; }
 
         public string ProductSerialNumber
         {
@@ -51,43 +49,12 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public decimal PaymentChange
+        public decimal PaymentPaidAmount
         {
-            get => _paymentChange;
+            get => _paymentPaidAmount;
             set
             {
-                _paymentChange = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public decimal? PaidPrice
-        {
-            get => _paidPrice;
-            set
-            {
-                _paidPrice = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SelectedPaymentMethod
-        {
-            get => _selectedPaymentMethod;
-            set
-            {
-                _selectedPaymentMethod = value;
-                OnPropertyChanged();
-                ChangedPaymentMethod();
-            }
-        }
-
-        public bool ChosenPaymentMethod
-        {
-            get => _chosenPaymentMethod;
-            set
-            {
-                _chosenPaymentMethod = value;
+                _paymentPaidAmount = value;
                 OnPropertyChanged();
             }
         }
@@ -96,9 +63,9 @@ namespace Reolmarked.ViewModel
         {
             using var context = new AppDbContext(connectionString);
             ProductsToPay = new ObservableCollection<Product>();
+            PaymentMethods = new ObservableCollection<PaymentMethod>(context.PaymentMethod.ToList());
             AddProductToPaymentBtnClickCommand = new RelayCommand(AddProductToPaymentBtnClick);
             PayBtnClickCommand = new RelayCommand(PayBtnClick);
-            PaymentMethod = new List<string>() { "MobilePay", "Kontant" };
         }
 
         private void AddProductToPaymentBtnClick()
@@ -113,52 +80,22 @@ namespace Reolmarked.ViewModel
         private void PayBtnClick()
         {
             using var context = new AppDbContext(connectionString);
-            if(SelectedPaymentMethod == "MobilePay")
-            {
-                var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, SelectedPaymentMethod, 0);
-                context.Transaction.Add(newTransaction);
-                context.SaveChanges();
-                foreach (Product newProduct in ProductsToPay)
-                {
-                    context.TransactionLine.Add(new TransactionLine(newTransaction.TransactionId, newProduct.ProductSerialNumber));
-                    var productToChange = context.Product.FirstOrDefault(p => p.ProductSerialNumber == newProduct.ProductSerialNumber);
-                    productToChange.ProductSold = true;
-                }
-                context.SaveChanges();
-                ProductsToPay.Clear();
-                ProductsTotalPrice = 0;
-            }
-            else if(SelectedPaymentMethod == "Kontant")
-            {
-                PaymentChange = (decimal)(PaidPrice - ProductsTotalPrice);
-                var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, SelectedPaymentMethod, PaymentChange);
-                context.Transaction.Add(newTransaction);
-                context.SaveChanges();
-                foreach (Product newProduct in ProductsToPay)
-                {
-                    context.TransactionLine.Add(new TransactionLine(newTransaction.TransactionId, newProduct.ProductSerialNumber));
-                    var productToChange = context.Product.FirstOrDefault(p => p.ProductSerialNumber == newProduct.ProductSerialNumber);
-                    productToChange.ProductSold = true;
-                }
-                context.SaveChanges();
-                ProductsToPay.Clear();
-                MessageBox.Show($"Byttepenge: {PaymentChange}", "Byttepenge", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                ProductsTotalPrice = 0;
-                PaidPrice = null;
-            }
-        }
 
-        private void ChangedPaymentMethod()
-        {
-            if (SelectedPaymentMethod == "MobilePay")
+            var PaymentChange = (PaymentPaidAmount - ProductsTotalPrice);
+            var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, PaymentPaidAmount, PaymentMethodId);
+            context.Transaction.Add(newTransaction);
+            context.SaveChanges();
+            foreach (Product newProduct in ProductsToPay)
             {
-                PaidPrice = null;
-                ChosenPaymentMethod = false;
+                context.TransactionLine.Add(new TransactionLine(newTransaction.TransactionId, newProduct.ProductSerialNumber));
+                var productToChange = context.Product.FirstOrDefault(p => p.ProductSerialNumber == newProduct.ProductSerialNumber);
+                productToChange.ProductSold = true;
             }
-            else if (SelectedPaymentMethod == "Kontant")
-            {
-                ChosenPaymentMethod = true;
-            }
+            context.SaveChanges();
+            ProductsToPay.Clear();
+            MessageBox.Show($"Byttepenge: {PaymentChange}", "Byttepenge", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            ProductsTotalPrice = 0;
+            PaymentPaidAmount = 0;
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

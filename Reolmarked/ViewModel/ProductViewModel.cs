@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using IronBarCode;
+using Microsoft.Extensions.Configuration;
 using Reolmarked.Command;
 using Reolmarked.Data;
 using Reolmarked.Model;
@@ -12,10 +13,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Reolmarked.Helper;
 
 namespace Reolmarked.ViewModel
 {
-    public class ProductViewModel
+    public class ProductViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Product> Products { get; set; }
         public ObservableCollection<Rack> Racks { get; set; }
@@ -23,6 +25,8 @@ namespace Reolmarked.ViewModel
         private decimal _productPrice;
         private int _rackNumber;
         public ICommand AddProductBtnClickCommand { get; }
+        public ICommand GenerateBarCodeBtnClickCommand { get; }
+        public ICommand PrintBarCodeBtnClickCommand { get; }
         public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
         public int SelectedRackNumber { get; set; }
 
@@ -62,6 +66,7 @@ namespace Reolmarked.ViewModel
             Products = new ObservableCollection<Product>(context.Product.Where(p => p.ProductSold == false).ToList());
             Racks = new ObservableCollection<Rack>(context.Rack.ToList());
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
+            GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
         }
 
         private async void AddProductBtnClick()
@@ -90,6 +95,16 @@ namespace Reolmarked.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine($"Error adding product to database: {ex.Message}");
             }
+        }
+
+        private void GenerateBarCodeBtnClick()
+        {
+            string randomData = NumberGenerator.GenerateRandomString(10);
+
+            var barcode = BarcodeWriter.CreateBarcode(randomData, BarcodeEncoding.Code128);
+
+            ProductSerialNumber = randomData;
+
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
