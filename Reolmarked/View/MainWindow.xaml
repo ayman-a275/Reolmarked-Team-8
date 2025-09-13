@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reolmarked"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow"
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize"
         xmlns:view="clr-namespace:Reolmarked.View">
 
     <Grid>
         <StackPanel Orientation="Horizontal">
             <view:MenuView x:Name="MenuView" />
-            <ContentControl x:Name="MainContent" Width="541"/>
+            <ContentControl x:Name="MainContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </StackPanel>
         
     </Grid>

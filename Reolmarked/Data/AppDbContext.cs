@@ -17,6 +17,8 @@ namespace Reolmarked.Data
 
         public DbSet<TransactionLine> TransactionLine { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public DbSet<Renter> Renter { get; set; }
+        public DbSet<RentedRack> RentedRack { get; set; }
 
         private readonly string _connectionString;
 

@@ -37,6 +37,18 @@ namespace Reolmarked.View
                 MainContent.Content = new PaymentView();
                 DataContext = new PaymentViewModel();
             };
+
+            MenuView.RenterBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new RenterView();
+                DataContext = new RenterViewModel();
+            };
+
+            MenuView.RentRackBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new RentRackView();
+                DataContext = new RentRackViewModel();
+            };
         }
     }
 }

@@ -11,12 +11,13 @@ namespace Reolmarked.Model
         int _renterId;
         string _renterName;
         string _renterTelephoneNumber;
+        string _renterEmail;
 
-        public Renter(int renterId, string renterName, string renterTelephoneNumber)
+        public Renter(string renterName, string renterTelephoneNumber)
         {
-            _renterId = renterId;
-            _renterName = renterName;
-            _renterTelephoneNumber = renterTelephoneNumber;
+            RenterName = renterName;
+            RenterTelephoneNumber = renterTelephoneNumber;
+            RenterEmail = "0";
         }
 
         public int RenterId
@@ -43,6 +44,15 @@ namespace Reolmarked.Model
             set
             {
                 _renterTelephoneNumber = value;
+            }
+        }
+
+        public string RenterEmail
+        {
+            get => _renterEmail;
+            set
+            {
+                _renterEmail = value;
             }
         }
     }

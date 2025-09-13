@@ -16,6 +16,7 @@
         <DataGrid ItemsSource="{Binding Products}" Margin="253,189,36,13"/>
         <ComboBox ItemsSource="{Binding Racks}" DisplayMemberPath="RackNumber" SelectedValuePath="RackNumber" SelectedValue="{Binding SelectedRackNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,52,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Command="{Binding GenerateBarCodeBtnClickCommand}" Content="Generere ny stregkode" HorizontalAlignment="Left" Margin="356,137,0,0" VerticalAlignment="Top" Width="136"/>
+        <Button Command="{Binding PrintBarCodeBtnClickCommand}" Content="Print stregkode" HorizontalAlignment="Left" Margin="562,137,0,0" VerticalAlignment="Top" Width="107"/>
 
     </Grid>
 </UserControl>

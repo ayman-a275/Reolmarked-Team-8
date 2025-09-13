@@ -67,6 +67,7 @@ namespace Reolmarked.ViewModel
             Racks = new ObservableCollection<Rack>(context.Rack.ToList());
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
             GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
+            PrintBarCodeBtnClickCommand = new RelayCommand(PrintBarCodeBtnClick);
         }
 
         private async void AddProductBtnClick()
@@ -104,6 +105,11 @@ namespace Reolmarked.ViewModel
             var barcode = BarcodeWriter.CreateBarcode(randomData, BarcodeEncoding.Code128);
 
             ProductSerialNumber = randomData;
+
+        }
+
+        private void PrintBarCodeBtnClick()
+        {
 
         }
 
