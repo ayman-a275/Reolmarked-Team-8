@@ -13,7 +13,7 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <view:MenuView x:Name="MenuView" />
+            <ContentControl x:Name="MenuContent" />
             <ContentControl x:Name="MainContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </StackPanel>
         

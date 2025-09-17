@@ -21,6 +21,7 @@ namespace Reolmarked.ViewModel
         private int _rackNumber;
         private decimal _rackPrice;
         public ICommand AddRackBtnClickCommand { get; }
+        public ICommand EditRackCommand { get; }
         public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
 
         public int RackNumber
@@ -48,6 +49,7 @@ namespace Reolmarked.ViewModel
             using var context = new AppDbContext(connectionString);
             Racks = new ObservableCollection<Rack>(context.Rack.ToList());
             AddRackBtnClickCommand = new RelayCommand(AddRackBtnClick);
+            EditRackCommand = new RelayCommand(EditRack);
         }
 
         private async void AddRackBtnClick()
@@ -77,6 +79,15 @@ namespace Reolmarked.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine($"Error adding rack to database: {ex.Message}");
             }
+        }
+
+        private void EditRack(object? rack)
+        {
+            using var context = new AppDbContext(connectionString);
+            Rack rackToEdit = (Rack)rack;
+            var rackToEditdb = context.Rack.FirstOrDefault(r => r.RackNumber == rackToEdit.RackNumber);
+            rackToEditdb.RackPrice = 999;
+            context.SaveChanges();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

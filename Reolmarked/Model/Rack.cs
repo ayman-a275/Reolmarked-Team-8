@@ -11,11 +11,13 @@ namespace Reolmarked.Model
     {
         private int _rackNumber;
         private decimal _rackPrice;
+        private bool _rackRented;
 
         public Rack(int rackNumber, decimal rackPrice)
         {
             RackNumber = rackNumber;
             RackPrice = rackPrice;
+            RackRented = false;
         }
 
         [Key]
@@ -34,6 +36,15 @@ namespace Reolmarked.Model
             set
             {
                 _rackPrice = value;
+            }
+        }
+
+        public bool RackRented
+        {
+            get => _rackRented;
+            set
+            {
+                _rackRented = value;
             }
         }
     }

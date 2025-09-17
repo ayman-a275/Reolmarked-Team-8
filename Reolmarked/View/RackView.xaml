@@ -11,8 +11,26 @@
         <Label Content="Leje Pris" HorizontalAlignment="Left" Margin="98,94,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding RackPrice, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="98,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
         <Button Command="{Binding AddRackBtnClickCommand}" Content="Tilføj Rack" HorizontalAlignment="Left" Margin="96,310,0,0" VerticalAlignment="Top" Width="94"/>
-        <DataGrid ItemsSource="{Binding Racks}" Margin="253,189,36,13"/>
         <TextBox Text="{Binding RackNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
+        <ListView ItemsSource="{Binding Racks}" Margin="253,120,64,120">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Reol nr." DisplayMemberBinding="{Binding RackNumber}"/>
+                    <GridViewColumn Header="Pris" DisplayMemberBinding="{Binding RackPrice}"/>
+                    <GridViewColumn Header="Ændre" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Ændre reol" 
+                                        Command="{Binding DataContext.EditRackCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding}"
+                                        Margin="5,0"
+                                        Padding="10,2"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </UserControl>

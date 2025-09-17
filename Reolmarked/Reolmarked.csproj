@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\img\close_menu.png" />
+    <None Remove="Data\img\open_menu.png" />
     <None Remove="Data\img\rackPlan.png" />
   </ItemGroup>
 
@@ -25,10 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Data\img\close_menu.png" />
+    <Resource Include="Data\img\open_menu.png" />
     <Resource Include="Data\img\rackPlan.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\MenuClosedView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\PaymentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

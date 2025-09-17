@@ -20,35 +20,53 @@ namespace Reolmarked.View
         public MainWindow()
         {
             InitializeComponent();
-            MenuView.ProductBtn.Click += (s, e) =>
+
+            var _menuView = new MenuView();
+            var _menuClosedView = new MenuClosedView();
+            MenuContent.Content = _menuView;
+
+            _menuView.ProductBtn.Click += (s, e) =>
             {
                 MainContent.Content = new ProductView();
                 DataContext = new ProductViewModel();
             };
 
-            MenuView.RackBtn.Click += (s, e) =>
+            _menuView.RackBtn.Click += (s, e) =>
             {
                 MainContent.Content = new RackView();
                 DataContext = new RackViewModel();
             };
 
-            MenuView.PaymentBtn.Click += (s, e) =>
+            _menuView.PaymentBtn.Click += (s, e) =>
             {
                 MainContent.Content = new PaymentView();
                 DataContext = new PaymentViewModel();
+                MenuContent.Content = _menuClosedView;
             };
 
-            MenuView.RenterBtn.Click += (s, e) =>
+            _menuView.RenterBtn.Click += (s, e) =>
             {
                 MainContent.Content = new RenterView();
                 DataContext = new RenterViewModel();
             };
 
-            MenuView.RentRackBtn.Click += (s, e) =>
+            _menuView.RentRackBtn.Click += (s, e) =>
             {
                 MainContent.Content = new RentRackView();
                 DataContext = new RentRackViewModel();
             };
+
+            _menuView.CloseMenuBtn.Click += (s, e) =>
+            {
+                MenuContent.Content = _menuClosedView;
+            };
+
+            _menuClosedView.OpenMenuBtn.Click += (s, e) =>
+            {
+                MenuContent.Content = _menuView;
+            };
+
+
         }
     }
 }

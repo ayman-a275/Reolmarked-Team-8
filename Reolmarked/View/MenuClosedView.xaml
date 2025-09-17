@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Reolmarked.View.MenuView"
+﻿<UserControl x:Class="Reolmarked.View.MenuClosedView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="115">
+             d:DesignHeight="450" d:DesignWidth="30">
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#ffffff"></Setter>
@@ -18,23 +18,13 @@
         <Border BorderThickness="1" Background="#f8f8f8" BorderBrush="#cccccc">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Menu" Margin="10" FontWeight="Bold" Foreground="#666666"/>
-                    <Button x:Name="CloseMenuBtn" Background="Transparent" BorderThickness="0" Padding="0" Height="19">
-                        <Image Source="/Data/img/close_menu.png" Height="19" Width="18"/>
+                    <Button x:Name="OpenMenuBtn" Margin="5, 13, 5, 0" Background="Transparent" BorderThickness="0" Padding="0">
+                        <Image Source="/Data/img/open_menu.png" Height="19" Width="18"/>
                     </Button>
                 </StackPanel>
 
-                <Button x:Name="ProductBtn" Content="Vare" Margin="5"/>
-                <Button x:Name="RackBtn" Content="Reol" Margin="5"/>
-                <Button x:Name="RenterBtn" Content="Lejer" Margin="5"/>
-                <Button x:Name="RentRackBtn" Content="Leje af reol" Margin="5"/>
-                <Button x:Name="PaymentBtn" Content="Betaling" Margin="5 175 5 5"/>
-                <Button Content="Betalingsoversigt" Margin="5"/>
-                <Button Content="Log ud" Margin="5 45 5 5"/>
-
             </StackPanel>
         </Border>
-
 
 
     </Grid>

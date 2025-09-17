@@ -51,15 +51,14 @@ namespace Reolmarked.ViewModel
             using var context = new AppDbContext(connectionString);
             Renters = new ObservableCollection<Renter>(context.Renter.ToList());
             RentedRacks = new ObservableCollection<RentedRack>(context.RentedRack.ToList());
-            if(context.Rack != null && context.RentedRack != null) 
-                Racks = new ObservableCollection<Rack>(context.Rack.Where(r => !context.RentedRack.Any(rr => rr.RackNumber == r.RackNumber)).ToList());
+            Racks = new ObservableCollection<Rack>(context.Rack.ToList());
             BtnRackClickedCommand = new RelayCommand(BtnRackClicked, canExecuteBtnRackClicked);
             BtnBookRackClickedCommand = new RelayCommand(BtnBookRackClicked, canExecuteBtnBookRackClicked);
             BookingRacks = new ObservableCollection<BookingRack>();
 
-            foreach (Rack rack in context.Rack.ToList())
+            foreach (Rack rack in Racks)
             {
-                if (context.RentedRack.Any(rr => rr.RackNumber == rack.RackNumber))
+                if (rack.RackRented)
                     BookingRacks.Add(new BookingRack(rack.RackNumber, true));
                 else
                     BookingRacks.Add(new BookingRack(rack.RackNumber, false));
@@ -75,6 +74,12 @@ namespace Reolmarked.ViewModel
 
         public bool canExecuteBtnRackClicked(object? index)
         {
+            using var context = new AppDbContext(connectionString);
+            int indexNum = Convert.ToInt32(index);
+            var rack = BookingRacks[indexNum];
+            Rack rackToCheck = context.Rack.FirstOrDefault(r => r.RackNumber == rack.RackNumber);
+            if (rackToCheck.RackRented)
+                return false;
             return true;
         }
 
@@ -85,7 +90,8 @@ namespace Reolmarked.ViewModel
             {
                 if (bookingRack.RackClicked)
                 {
-                    context.RentedRack.Add(new RentedRack(bookingRack.RackNumber, 3, 0));
+                    Rack rackToChange = context.Rack.FirstOrDefault(r => r.RackNumber == bookingRack.RackNumber);
+                    rackToChange.RackRented = true;
                     context.SaveChanges();
                 }
 

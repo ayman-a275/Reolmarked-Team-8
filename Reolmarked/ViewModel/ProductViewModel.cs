@@ -102,7 +102,7 @@ namespace Reolmarked.ViewModel
         {
             string randomData = NumberGenerator.GenerateRandomString(10);
 
-            var barcode = BarcodeWriter.CreateBarcode(randomData, BarcodeEncoding.Code128);
+            //var barcode = BarcodeWriter.CreateBarcode(randomData, BarcodeEncoding.Code128);
 
             ProductSerialNumber = randomData;
 
