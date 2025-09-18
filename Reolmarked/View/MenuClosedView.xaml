@@ -5,27 +5,63 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="30">
+             d:DesignHeight="450" d:DesignWidth="60"
+             Background="#f8f9fa">
+
     <UserControl.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#ffffff"></Setter>
-            <Setter Property="BorderThickness" Value="1"></Setter>
-            <Setter Property="BorderBrush" Value="#dddddd"></Setter>
+        <Style x:Key="OpenMenuButton" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#007bff"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#0056b3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <Border BorderThickness="1" Background="#f8f8f8" BorderBrush="#cccccc">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="OpenMenuBtn" Margin="5, 13, 5, 0" Background="Transparent" BorderThickness="0" Padding="0">
-                        <Image Source="/Data/img/open_menu.png" Height="19" Width="18"/>
-                    </Button>
-                </StackPanel>
+    <Border Background="White" 
+            CornerRadius="0,12,12,0" 
+            Padding="0" 
+            Margin="0"
+            Width="60">
+        <Border.Effect>
+            <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="3" BlurRadius="10" Opacity="0.3"/>
+        </Border.Effect>
 
-            </StackPanel>
-        </Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-
-    </Grid>
+            <Border Grid.Row="0" 
+                    Background="#007bff" 
+                    CornerRadius="0,12,0,0" 
+                    Padding="9">
+                <Button x:Name="OpenMenuBtn" 
+                        Style="{StaticResource OpenMenuButton}"
+                        ToolTip="Åbn menu" Margin="-8,0,-5,0"
+                        Background="#007bff">
+                    <Image Source="/Data/img/open_menu.png" Height="20" Width="20"/>
+                </Button>
+            </Border>
+        </Grid>
+    </Border>
 </UserControl>

@@ -2,6 +2,7 @@
 using Reolmarked.Command;
 using Reolmarked.Data;
 using Reolmarked.Model;
+using Reolmarked.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -81,13 +82,11 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        private void EditRack(object? rack)
+        private void EditRack(object? parameter)
         {
-            using var context = new AppDbContext(connectionString);
-            Rack rackToEdit = (Rack)rack;
-            var rackToEditdb = context.Rack.FirstOrDefault(r => r.RackNumber == rackToEdit.RackNumber);
-            rackToEditdb.RackPrice = 999;
-            context.SaveChanges();
+            Rack rack = (Rack)parameter;
+            var editRackWindow = new EditRackWindow(rack);
+            editRackWindow.ShowDialog();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

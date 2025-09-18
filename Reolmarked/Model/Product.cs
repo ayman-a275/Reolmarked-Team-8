@@ -17,11 +17,6 @@ namespace Reolmarked.Model
         private bool _productSold;
         private int _rackNumber;
 
-        public Product()
-        {
-            // Needed by EF Core
-        }
-
         public Product(string productSerialNumber, decimal productPrice, int rackNumber)
         {
             ProductSerialNumber = productSerialNumber;
