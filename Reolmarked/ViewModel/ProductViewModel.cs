@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Reolmarked.Helper;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Reolmarked.ViewModel
 {
@@ -22,6 +23,7 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<Product> Products { get; set; }
         public ObservableCollection<Rack> Racks { get; set; }
         private string _productSerialNumber;
+        private string? _productDescription;
         private decimal _productPrice;
         private int _rackNumber;
         public ICommand AddProductBtnClickCommand { get; }
@@ -38,6 +40,21 @@ namespace Reolmarked.ViewModel
                 _productSerialNumber = value;
                 OnPropertyChanged();
             }
+        }
+
+        public string? ProductDescription
+        {
+            get {
+                if (!_productDescription.IsNullOrEmpty())
+                    return _productDescription;
+                else
+                    return "";
+            }
+            set
+            {
+                _productDescription = value;
+                OnPropertyChanged();
+            } 
         }
 
         public decimal ProductPrice
@@ -72,14 +89,14 @@ namespace Reolmarked.ViewModel
 
         private async void AddProductBtnClick()
         {
-            var newProduct = new Product(ProductSerialNumber, ProductPrice, SelectedRackNumber);
+            var newProduct = new Product(ProductSerialNumber, ProductDescription, ProductPrice, SelectedRackNumber);
             Products.Add(newProduct);
 
             try
             {
                 await Task.Run(() =>
                 {
-                    var dbProduct = new Product(ProductSerialNumber, ProductPrice, SelectedRackNumber);
+                    var dbProduct = new Product(ProductSerialNumber, ProductDescription, ProductPrice, SelectedRackNumber);
 
                     if (string.IsNullOrWhiteSpace(connectionString))
                     {

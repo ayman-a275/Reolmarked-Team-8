@@ -110,7 +110,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -151,6 +151,11 @@
                             Style="{StaticResource SuccessButton}"
                             Width="100"/>
                 </Grid>
+
+                <Label Content="Beskrivelse" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding ProductDescription, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,25"/>
 
                 <Label Content="Pris (kr.)" Style="{StaticResource FormLabel}"/>
                 <TextBox Text="{Binding ProductPrice, UpdateSourceTrigger=PropertyChanged}" 
@@ -241,6 +246,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+                        <DataGridTextColumn Header="Beskrivelse" Binding="{Binding ProductDescription}" Width="*" MinWidth="120"/>
                         <DataGridTextColumn Header="Pris" Binding="{Binding ProductPrice, StringFormat=C, ConverterCulture=da-DK}" Width="100">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">

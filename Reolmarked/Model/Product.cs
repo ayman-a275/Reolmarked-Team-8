@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Reolmarked.Model
 {
@@ -14,12 +15,14 @@ namespace Reolmarked.Model
     {
         private string _productSerialNumber;
         private decimal _productPrice;
+        private string _productDescription;
         private bool _productSold;
         private int _rackNumber;
 
-        public Product(string productSerialNumber, decimal productPrice, int rackNumber)
+        public Product(string productSerialNumber, string productDescription, decimal productPrice, int rackNumber)
         {
             ProductSerialNumber = productSerialNumber;
+            ProductDescription = productDescription;
             ProductPrice = productPrice;
             ProductSold = false;
             RackNumber = rackNumber;
@@ -31,6 +34,17 @@ namespace Reolmarked.Model
             set
             {
                 _productSerialNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [AllowNull]
+        public string ProductDescription
+        {
+            get => _productDescription;
+            set
+            {
+                _productDescription = value;
                 OnPropertyChanged();
             }
         }
