@@ -256,21 +256,6 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Status" Width="80">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border Background="#d4edda" 
-                                            CornerRadius="4" 
-                                            Padding="6,2">
-                                        <TextBlock Text="Aktiv" 
-                                                   Foreground="#155724" 
-                                                   FontWeight="SemiBold"
-                                                   FontSize="11"
-                                                   HorizontalAlignment="Center"/>
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
 
                     <DataGrid.RowStyle>

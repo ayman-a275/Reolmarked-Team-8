@@ -15,7 +15,7 @@ namespace Reolmarked.Model
     {
         private string _productSerialNumber;
         private decimal _productPrice;
-        private string _productDescription;
+        private string? _productDescription;
         private bool _productSold;
         private int _rackNumber;
 
@@ -41,7 +41,7 @@ namespace Reolmarked.Model
         [AllowNull]
         public string ProductDescription
         {
-            get => _productDescription;
+            get => _productDescription ?? string.Empty;
             set
             {
                 _productDescription = value;

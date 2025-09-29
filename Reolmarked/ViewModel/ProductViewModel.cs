@@ -44,17 +44,12 @@ namespace Reolmarked.ViewModel
 
         public string? ProductDescription
         {
-            get {
-                if (!_productDescription.IsNullOrEmpty())
-                    return _productDescription;
-                else
-                    return "";
-            }
+            get => _productDescription ?? string.Empty;
             set
             {
                 _productDescription = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public decimal ProductPrice
