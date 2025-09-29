@@ -68,6 +68,11 @@ namespace Reolmarked.View
             {
                 MenuContent.Content = _menuView;
             };
+
+            _menuView.ExitBtn.Click += (s, e) =>
+            {
+                Application.Current.Shutdown();
+            };
         }
     }
 }

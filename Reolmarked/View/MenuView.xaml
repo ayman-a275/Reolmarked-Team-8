@@ -225,7 +225,7 @@
             <Separator Grid.Row="2" Margin="8,0" Background="#dee2e6"/>
 
             <StackPanel Grid.Row="3" Margin="12,15">
-                <Button Content="Log ud" Style="{StaticResource DangerMenuButton}"/>
+                <Button x:Name="ExitBtn" Content="Luk Program" Style="{StaticResource DangerMenuButton}"/>
             </StackPanel>
         </Grid>
     </Border>

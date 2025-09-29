@@ -18,9 +18,12 @@ namespace Reolmarked
         {
             base.OnStartup(e);
 
+            var environment = System.Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                 .Build();
 
             string? connString = Configuration.GetConnectionString("DefaultConnection");

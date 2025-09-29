@@ -361,4 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Reolmarked/appsettings.json
+
+# Ignore production settings with sensitive credentials
+/Reolmarked/appsettings.Production.json
