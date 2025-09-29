@@ -5,14 +5,163 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Content="Navn" HorizontalAlignment="Left" Margin="96,21,0,0" VerticalAlignment="Top"/>
-        <Label Content="Telefonnummer" HorizontalAlignment="Left" Margin="98,94,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding RenterTelephoneNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="98,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
-        <Button Command="{Binding AddRenterBtnClickCommand}" Content="Tilføj Lejer" HorizontalAlignment="Left" Margin="96,310,0,0" VerticalAlignment="Top" Width="94"/>
-        <DataGrid ItemsSource="{Binding Renters}" Margin="253,189,36,13"/>
-        <TextBox Text="{Binding RenterName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
+             d:DesignHeight="600" d:DesignWidth="1000"
+             Background="#f8f9fa">
 
+    <UserControl.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007bff"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0056b3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#ced4da"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#495057"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="Tilføj Ny Lejer" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <Label Content="Navn" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding RenterName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <Label Content="Telefonnummer" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding RenterTelephoneNumber, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,15"/>
+
+                <Label Content="Kontonummer" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding RenterAccountNumber, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,25"/>
+
+                <Button Command="{Binding AddRenterBtnClickCommand}" 
+                        Content="Tilføj Lejer" 
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="Alle Lejere" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <DataGrid Grid.Row="1" 
+                          ItemsSource="{Binding Renters}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserResizeRows="False"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          Background="White"
+                          RowBackground="White"
+                          AlternatingRowBackground="#f8f9fa">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding RenterId}" Width="50"/>
+                        <DataGridTextColumn Header="Navn" Binding="{Binding RenterName}" Width="150"/>
+                        <DataGridTextColumn Header="Telefonnummer" Binding="{Binding RenterTelephoneNumber}" Width="120"/>
+                        <DataGridTextColumn Header="Kontonummer" Binding="{Binding RenterAccountNumber}" Width="150"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding RenterEmail}" Width="*"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#e9ecef"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

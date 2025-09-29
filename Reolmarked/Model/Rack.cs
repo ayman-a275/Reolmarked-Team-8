@@ -10,14 +10,14 @@ namespace Reolmarked.Model
     public class Rack
     {
         private int _rackNumber;
-        private decimal _rackPrice;
         private bool _rackRented;
+        private int _rackTypeId;
 
-        public Rack(int rackNumber, decimal rackPrice)
+        public Rack(int rackNumber, int rackTypeId)
         {
             RackNumber = rackNumber;
-            RackPrice = rackPrice;
             RackRented = false;
+            RackTypeId = rackTypeId;
         }
 
         [Key]
@@ -30,21 +30,21 @@ namespace Reolmarked.Model
             }
         }
 
-        public decimal RackPrice
-        {
-            get => _rackPrice;
-            set
-            {
-                _rackPrice = value;
-            }
-        }
-
         public bool RackRented
         {
             get => _rackRented;
             set
             {
                 _rackRented = value;
+            }
+        }
+
+        public int RackTypeId
+        {
+            get => _rackTypeId;
+            set
+            {
+                _rackTypeId = value;
             }
         }
     }

@@ -5,18 +5,281 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Content="Reol nummer" HorizontalAlignment="Left" Margin="96,21,0,0" VerticalAlignment="Top"/>
-        <Label Content="Serie nummer" HorizontalAlignment="Left" Margin="96,102,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="False" HorizontalAlignment="Left" Margin="96,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="221"/>
-        <Label Content="Pris" HorizontalAlignment="Left" Margin="96,189,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding ProductPrice, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
-        <Button Command="{Binding AddProductBtnClickCommand}" Content="Tilføj Produkt" HorizontalAlignment="Left" Margin="96,310,0,0" VerticalAlignment="Top" Width="94"/>
-        <DataGrid ItemsSource="{Binding Products}" Margin="253,189,36,13"/>
-        <ComboBox ItemsSource="{Binding Racks}" DisplayMemberPath="RackNumber" SelectedValuePath="RackNumber" SelectedValue="{Binding SelectedRackNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,52,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Command="{Binding GenerateBarCodeBtnClickCommand}" Content="Generere ny stregkode" HorizontalAlignment="Left" Margin="356,137,0,0" VerticalAlignment="Top" Width="136"/>
-        <Button Command="{Binding PrintBarCodeBtnClickCommand}" Content="Print stregkode" HorizontalAlignment="Left" Margin="562,137,0,0" VerticalAlignment="Top" Width="107"/>
+             d:DesignHeight="700" d:DesignWidth="1200"
+             Background="#f8f9fa">
 
+    <UserControl.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007bff"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0056b3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SuccessButton" TargetType="Button">
+            <Setter Property="Background" Value="#28a745"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#218838"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#ced4da"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#495057"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="Tilføj Ny Vare" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <Label Content="Reol nummer" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding Racks}" 
+                         DisplayMemberPath="RackNumber" 
+                         SelectedValuePath="RackNumber" 
+                         SelectedValue="{Binding SelectedRackNumber, Mode=TwoWay}"
+                         Height="40"
+                         FontSize="14"
+                         Margin="0,0,0,20"/>
+
+                <Label Content="Serie nummer (stregkode)" Style="{StaticResource FormLabel}"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0"
+                             Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                             IsEnabled="False" 
+                             Style="{StaticResource ModernTextBox}"
+                             Background="#e9ecef"
+                             Margin="0,0,10,0"/>
+
+                    <Button Grid.Column="1"
+                            Command="{Binding GenerateBarCodeBtnClickCommand}" 
+                            Content="Generer" 
+                            Style="{StaticResource SuccessButton}"
+                            Width="100"/>
+                </Grid>
+
+                <Label Content="Pris (kr.)" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding ProductPrice, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,25"/>
+
+                <Button Command="{Binding AddProductBtnClickCommand}" 
+                        Content="Tilføj Produkt" 
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Stretch"
+                        Height="45"
+                        FontSize="16"
+                        Margin="0,0,0,15"/>
+
+                <Button Command="{Binding PrintBarCodeBtnClickCommand}" 
+                        Content="Print Stregkode" 
+                        Background="#6c757d"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Padding="16,8"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        HorizontalAlignment="Stretch"
+                        Height="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="6" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#5a6268"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <TextBlock Text="Aktive Produkter" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#212529"
+                               VerticalAlignment="Center"/>
+                    <Border Background="#28a745" 
+                            CornerRadius="12" 
+                            Padding="8,4" 
+                            Margin="15,0,0,0">
+                        <TextBlock Text="{Binding Products.Count}" 
+                                   Foreground="White" 
+                                   FontWeight="Bold"
+                                   FontSize="14"/>
+                    </Border>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1" 
+                         ItemsSource="{Binding Products}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False"
+                         CanUserDeleteRows="False"
+                         CanUserReorderColumns="False"
+                         CanUserResizeRows="False"
+                         GridLinesVisibility="Horizontal"
+                         HeadersVisibility="Column"
+                         Background="White"
+                         RowBackground="White"
+                         AlternatingRowBackground="#f8f9fa"
+                         FontSize="13">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Serie nummer" Binding="{Binding ProductSerialNumber}" Width="*" MinWidth="120"/>
+                        <DataGridTextColumn Header="Reol" Binding="{Binding RackNumber}" Width="70">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Pris" Binding="{Binding ProductPrice, StringFormat=C, ConverterCulture=da-DK}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="#28a745"/>
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Status" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="#d4edda" 
+                                            CornerRadius="4" 
+                                            Padding="6,2">
+                                        <TextBlock Text="Aktiv" 
+                                                   Foreground="#155724" 
+                                                   FontWeight="SemiBold"
+                                                   FontSize="11"
+                                                   HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Height" Value="40"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#e9ecef"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

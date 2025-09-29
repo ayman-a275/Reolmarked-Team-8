@@ -5,11 +5,345 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reolmarked.View"
         mc:Ignorable="d"
-        Title="EditRackWindow" Height="450" Width="800">
-    <Grid>
-        <TextBox Text="{Binding RackToEdit.RackNumber}" IsEnabled="False" Margin="168,105,556,266"></TextBox>
-        <TextBox Text="{Binding RackToEdit.RackPrice, Mode=TwoWay}" HorizontalAlignment="Left" Margin="168,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Redigere reol" Command="{Binding EditRackCommand}" Margin="168,259,512,109"></Button>
+        Title="Redigere Reol" 
+        Height="600" 
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#f8f9fa"
+        ResizeMode="CanResize">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007bff"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0056b3"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004085"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#6c757d"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#5a6268"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#545b62"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#ced4da"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#ced4da"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="0" 
+                                                      Margin="{TemplateBinding Padding}" 
+                                                      VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Left"/>
+                                    <ToggleButton Grid.Column="1" 
+                                                  x:Name="DropDownToggle"
+                                                  Background="Transparent" 
+                                                  BorderThickness="0"
+                                                  IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ClickMode="Press">
+                                        <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="#495057" Margin="8"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+                            <Popup x:Name="PART_Popup" 
+                                   IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                   Placement="Bottom" 
+                                   StaysOpen="False">
+                                <Border Background="White" 
+                                        BorderBrush="#ced4da" 
+                                        BorderThickness="1" 
+                                        CornerRadius="4">
+                                    <ScrollViewer>
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#495057"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Key="StatusBadge" TargetType="Border">
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="Redigere Reol" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <Label Content="Reol nummer" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding RackToEdit.RackNumber}" 
+                         Style="{StaticResource ModernTextBox}"
+                         IsEnabled="False"
+                         Background="#e9ecef"
+                         Margin="0,0,0,15"/>
+
+                <Label Content="Reol type" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding RackTypes}" 
+                          DisplayMemberPath="RackTypeName" 
+                          SelectedValuePath="RackTypeId" 
+                          SelectedValue="{Binding SelectedRackTypeId, Mode=TwoWay}"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,20"/>
+
+                <Label Content="Status" Style="{StaticResource FormLabel}"/>
+                <Border Margin="0,0,0,15">
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource StatusBadge}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RackToEdit.RackRented}" Value="True">
+                                    <Setter Property="Background" Value="#dc3545"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RackToEdit.RackRented}" Value="False">
+                                    <Setter Property="Background" Value="#28a745"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock Foreground="White" FontWeight="SemiBold" FontSize="12">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RackToEdit.RackRented}" Value="True">
+                                        <Setter Property="Text" Value="Udlejet"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RackToEdit.RackRented}" Value="False">
+                                        <Setter Property="Text" Value="Ledig"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
+
+                <StackPanel Visibility="{Binding IsRackRented, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Label Content="Lejet af" Style="{StaticResource FormLabel}"/>
+                    <TextBox Text="{Binding RenterName}" 
+                             Style="{StaticResource ModernTextBox}"
+                             IsEnabled="False"
+                             Background="#e9ecef"
+                             Margin="0,0,0,15"/>
+
+                    <Label Content="Aftalt pris (kr./måned)" Style="{StaticResource FormLabel}"/>
+                    <TextBox Text="{Binding AgreedPrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                             Style="{StaticResource ModernTextBox}"
+                             IsEnabled="False"
+                             Background="#e9ecef"
+                             Margin="0,0,0,15"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Command="{Binding SaveChangesCommand}" 
+                            Content="Gem ændringer" 
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="0,0,10,0"/>
+
+                    <Button Command="{Binding CancelCommand}" 
+                            Content="Annuller" 
+                            Style="{StaticResource SecondaryButton}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="Reol Typer - Oversigt" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <ListView Grid.Row="1" 
+                          ItemsSource="{Binding RackTypes}" 
+                          Background="White"
+                          BorderBrush="#dee2e6"
+                          BorderThickness="1"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          AlternationCount="2">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent" 
+                                    Padding="15"
+                                    Margin="5"
+                                    CornerRadius="6"
+                                    BorderBrush="#dee2e6"
+                                    BorderThickness="1">
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding RackTypeName}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="16" 
+                                                   Foreground="#212529"/>
+
+                                        <TextBlock Grid.Column="1" 
+                                                   Text="{Binding RackTypePrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                                   FontWeight="SemiBold" 
+                                                   FontSize="14" 
+                                                   Foreground="#007bff"/>
+                                    </Grid>
+
+                                    <TextBlock Text="{Binding RackTypeDescription}" 
+                                               FontSize="14" 
+                                               Foreground="#6c757d" 
+                                               TextWrapping="Wrap" 
+                                               Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace Reolmarked.View
 {
     /// <summary>
-    /// Interaction logic for EditRack.xaml
+    /// Interaction logic for EditRackWindow.xaml
     /// </summary>
     public partial class EditRackWindow : Window
     {
@@ -25,10 +25,10 @@ namespace Reolmarked.View
         {
             InitializeComponent();
             DataContext = new EditRackViewModel(rack);
-            this.Loaded += MyWindow_Loaded;
+            this.Loaded += EditRackWindow_Loaded;
         }
 
-        private void MyWindow_Loaded(object sender, RoutedEventArgs e)
+        private void EditRackWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (DataContext is EditRackViewModel viewModel)
             {

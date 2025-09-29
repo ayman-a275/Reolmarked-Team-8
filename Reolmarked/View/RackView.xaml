@@ -202,16 +202,26 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
+                            <GridViewColumn Header="Type" Width="150">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RackTypeName}" 
+                                                   VerticalAlignment="Center"
+                                                   FontWeight="SemiBold"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
                             <GridViewColumn Header="Pris" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RackPrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}"
+                                        <TextBlock Text="{Binding DisplayPrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}"
                                                    VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="Handlinger" Width="100">
+                            <GridViewColumn Header="" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Content="Redigere" 

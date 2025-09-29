@@ -5,19 +5,243 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Content="Serie nummer" HorizontalAlignment="Left" Margin="98,18,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="96,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="221"/>
-        <Button Command="{Binding PayBtnClickCommand}" Content="Betal" HorizontalAlignment="Left" Margin="98,395,0,0" VerticalAlignment="Top" Width="94"/>
-        <DataGrid ItemsSource="{Binding ProductsToPay}" Margin="253,100,36,174"/>
-        <Label Content="Total Pris" HorizontalAlignment="Left" Margin="269,291,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding ProductsTotalPrice, Mode=OneWay, StringFormat=C}" HorizontalAlignment="Left" Margin="267,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220"/>
-        <Button Command="{Binding AddProductToPaymentBtnClickCommand}" Content="Tilføj vare til betaling" HorizontalAlignment="Left" Margin="98,100,0,0" VerticalAlignment="Top" Width="127"/>
-        <Label Content="Betalingsmetode" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Center"/>
-        <ComboBox ItemsSource="{Binding PaymentMethods, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="PaymentMethodName" SelectedValuePath="PaymentMethodId" SelectedValue="{Binding PaymentMethodId, Mode=TwoWay}" HorizontalAlignment="Left" Margin="98,243,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Betalt beløb" HorizontalAlignment="Left" Margin="97,291,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox Text="{Binding PaymentPaidAmount}" HorizontalAlignment="Left" Margin="96,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Background="#f8f9fa">
 
+    <UserControl.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#28a745"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#218838"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007bff"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0056b3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#ced4da"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#495057"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Key="TotalLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#28a745"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="Scanner Vare" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="#212529" 
+                           Margin="0,0,0,20"/>
+
+                <Label Content="Serie nummer (scan eller indtast)" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding ProductSerialNumber, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,20"/>
+
+                <Button Command="{Binding AddProductToPaymentBtnClickCommand}" 
+                        Content="Tilføj vare til kurv" 
+                        Style="{StaticResource SecondaryButton}"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,0,0,30"/>
+
+                <Separator Background="#dee2e6" Margin="0,0,0,20"/>
+
+                <Label Content="Betalingsmetode" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding PaymentMethods}" 
+                         DisplayMemberPath="PaymentMethodName" 
+                         SelectedValuePath="PaymentMethodId" 
+                         SelectedValue="{Binding PaymentMethodId, Mode=TwoWay}"
+                         Height="40"
+                         FontSize="14"
+                         Margin="0,0,0,20"/>
+
+                <Label Content="Betalt beløb" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding PaymentPaidAmount, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,10"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource CardStyle}" Background="#e8f5e9">
+            <StackPanel>
+                <TextBlock Text="Total" 
+                           FontSize="16" 
+                           FontWeight="SemiBold" 
+                           Foreground="#495057"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding ProductsTotalPrice, StringFormat=C, ConverterCulture=da-DK}" 
+                           Style="{StaticResource TotalLabel}"
+                           Margin="0,0,0,20"/>
+
+                <Button Command="{Binding PayBtnClickCommand}" 
+                        Content="Gennemfør Betaling" 
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Stretch"
+                        Height="50"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <TextBlock Text="Indkøbskurv" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#212529"
+                               VerticalAlignment="Center"/>
+                    <Border Background="#007bff" 
+                            CornerRadius="12" 
+                            Padding="8,4" 
+                            Margin="15,0,0,0">
+                        <TextBlock Text="{Binding ProductsToPay.Count}" 
+                                   Foreground="White" 
+                                   FontWeight="Bold"
+                                   FontSize="14"/>
+                    </Border>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1" 
+                         ItemsSource="{Binding ProductsToPay}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False"
+                         CanUserDeleteRows="False"
+                         CanUserReorderColumns="False"
+                         CanUserResizeRows="False"
+                         GridLinesVisibility="Horizontal"
+                         HeadersVisibility="Column"
+                         Background="White"
+                         RowBackground="White"
+                         AlternatingRowBackground="#f8f9fa"
+                         FontSize="14">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Serie nummer" Binding="{Binding ProductSerialNumber}" Width="*"/>
+                        <DataGridTextColumn Header="Reol" Binding="{Binding RackNumber}" Width="80"/>
+                        <DataGridTextColumn Header="Pris" Binding="{Binding ProductPrice, StringFormat=C, ConverterCulture=da-DK}" Width="120">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="#28a745"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Height" Value="45"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#e9ecef"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

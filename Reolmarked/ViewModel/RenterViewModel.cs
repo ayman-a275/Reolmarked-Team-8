@@ -15,11 +15,12 @@ using System.Windows.Interop;
 
 namespace Reolmarked.ViewModel
 {
-    public class RenterViewModel
+    public class RenterViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Renter> Renters { get; set; }
         private string _renterName;
         private string _renterTelephoneNumber;
+        private string _renterAccountNumber;
         public ICommand AddRenterBtnClickCommand { get; }
         public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
 
@@ -43,6 +44,16 @@ namespace Reolmarked.ViewModel
             }
         }
 
+        public string RenterAccountNumber
+        {
+            get => _renterAccountNumber;
+            set
+            {
+                _renterAccountNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
         public RenterViewModel()
         {
             using var context = new AppDbContext(connectionString);
@@ -52,14 +63,20 @@ namespace Reolmarked.ViewModel
 
         private async void AddRenterBtnClick()
         {
-            var newRenter = new Renter(RenterName, RenterTelephoneNumber);
+            var newRenter = new Renter(RenterName, RenterTelephoneNumber)
+            {
+                RenterAccountNumber = RenterAccountNumber
+            };
             Renters.Add(newRenter);
 
             try
             {
                 await Task.Run(() =>
                 {
-                    var dbRenter = new Renter(RenterName, RenterTelephoneNumber);
+                    var dbRenter = new Renter(RenterName, RenterTelephoneNumber)
+                    {
+                        RenterAccountNumber = RenterAccountNumber
+                    };
 
                     if (string.IsNullOrWhiteSpace(connectionString))
                     {
@@ -72,10 +89,14 @@ namespace Reolmarked.ViewModel
                         db.SaveChanges();
                     }
                 });
+
+                RenterName = string.Empty;
+                RenterTelephoneNumber = string.Empty;
+                RenterAccountNumber = string.Empty;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error adding rack to database: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error adding renter to database: {ex.Message}");
             }
         }
 

@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace Reolmarked.View
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -56,6 +53,12 @@ namespace Reolmarked.View
                 DataContext = new RentRackViewModel();
             };
 
+            _menuView.MonthlySettlementBtn.Click += (s, e) =>
+            {
+                MainContent.Content = new MonthlySettlementView();
+                DataContext = new MonthlySettlementViewModel();
+            };
+
             _menuView.CloseMenuBtn.Click += (s, e) =>
             {
                 MenuContent.Content = _menuClosedView;
@@ -65,8 +68,6 @@ namespace Reolmarked.View
             {
                 MenuContent.Content = _menuView;
             };
-
-
         }
     }
 }
