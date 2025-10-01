@@ -1,7 +1,5 @@
-﻿using IronBarCode;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Reolmarked.Command;
-using Reolmarked.Data;
 using Reolmarked.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using Reolmarked.Helper;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 
 namespace Reolmarked.ViewModel
 {
@@ -24,13 +23,12 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<Rack> Racks { get; set; }
         private string _productSerialNumber;
         private string? _productDescription;
-        private decimal _productPrice;
+        private decimal? _productPrice;
         private int _rackNumber;
         public ICommand AddProductBtnClickCommand { get; }
         public ICommand GenerateBarCodeBtnClickCommand { get; }
         public ICommand PrintBarCodeBtnClickCommand { get; }
-        public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
-        public int SelectedRackNumber { get; set; }
+        public int? SelectedRackNumber { get; set; }
 
         public string ProductSerialNumber
         {
@@ -52,7 +50,7 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public decimal ProductPrice
+        public decimal? ProductPrice
         {
             get => _productPrice;
             set
@@ -74,9 +72,10 @@ namespace Reolmarked.ViewModel
 
         public ProductViewModel()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             Products = new ObservableCollection<Product>(context.Product.Where(p => p.ProductSold == false).ToList());
             Racks = new ObservableCollection<Rack>(context.Rack.ToList());
+
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
             GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
             PrintBarCodeBtnClickCommand = new RelayCommand(PrintBarCodeBtnClick);
@@ -84,45 +83,65 @@ namespace Reolmarked.ViewModel
 
         private async void AddProductBtnClick()
         {
-            var newProduct = new Product(ProductSerialNumber, ProductDescription, ProductPrice, SelectedRackNumber);
-            Products.Add(newProduct);
+            if (!SelectedRackNumber.HasValue)
+            {
+                System.Windows.MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(ProductSerialNumber))
+            {
+                System.Windows.MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
+                return;
+            }
+
+            if (!ProductPrice.HasValue || ProductPrice <= 0)
+            {
+                System.Windows.MessageBox.Show("Pris skal være større end 0.", "Valideringsfejl");
+                return;
+            }
+
+            var newProduct = new Product(ProductSerialNumber, ProductDescription!, ProductPrice!.Value, SelectedRackNumber!.Value);
 
             try
             {
                 await Task.Run(() =>
                 {
-                    var dbProduct = new Product(ProductSerialNumber, ProductDescription, ProductPrice, SelectedRackNumber);
-
-                    if (string.IsNullOrWhiteSpace(connectionString))
-                    {
-                        throw new InvalidOperationException("Database connection string is null or empty.");
-                    }
-
-                    using var context = new AppDbContext(connectionString);
-                    context.Product.Add(dbProduct);
+                    using var context = DbContextFactory.CreateContext();
+                    context.Product.Add(newProduct);
                     context.SaveChanges();
-
                 });
+
+                Products.Add(newProduct);
+
+                SelectedRackNumber = null;
+                ProductSerialNumber = string.Empty;
+                ProductDescription = string.Empty;
+                ProductPrice = null;
+
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error adding product to database: {ex.Message}");
+                System.Windows.MessageBox.Show($"Fejl ved tilføjelse af produkt: {ex.Message}", "Fejl",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
         private void GenerateBarCodeBtnClick()
         {
-            string randomData = NumberGenerator.GenerateRandomString(10);
-
-            //var barcode = BarcodeWriter.CreateBarcode(randomData, BarcodeEncoding.Code128);
-
-            ProductSerialNumber = randomData;
-
+            ProductSerialNumber = SerialNumberGenerator.GenerateRandomString();
         }
 
         private void PrintBarCodeBtnClick()
         {
+            if (string.IsNullOrWhiteSpace(ProductSerialNumber))
+            {
+                System.Windows.MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
+                return;
+            }
 
+            PrintBarCode.PrintBarcode(ProductSerialNumber);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Configuration;
 using Reolmarked.Command;
-using Reolmarked.Data;
 using Reolmarked.Model;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Reolmarked.Helper;
 
 namespace Reolmarked.ViewModel
 {
@@ -22,7 +23,6 @@ namespace Reolmarked.ViewModel
         private string _renterTelephoneNumber;
         private string _renterAccountNumber;
         public ICommand AddRenterBtnClickCommand { get; }
-        public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
 
         public string RenterName
         {
@@ -56,7 +56,7 @@ namespace Reolmarked.ViewModel
 
         public RenterViewModel()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             Renters = new ObservableCollection<Renter>(context.Renter.ToList());
             AddRenterBtnClickCommand = new RelayCommand(AddRenterBtnClick);
         }
@@ -77,17 +77,9 @@ namespace Reolmarked.ViewModel
                     {
                         RenterAccountNumber = RenterAccountNumber
                     };
-
-                    if (string.IsNullOrWhiteSpace(connectionString))
-                    {
-                        throw new InvalidOperationException("Database connection string is null or empty.");
-                    }
-
-                    using (var db = new AppDbContext(connectionString))
-                    {
-                        db.Renter.Add(dbRenter);
-                        db.SaveChanges();
-                    }
+                    using var context = DbContextFactory.CreateContext();
+                    context.Renter.Add(dbRenter);
+                    context.SaveChanges();
                 });
 
                 RenterName = string.Empty;

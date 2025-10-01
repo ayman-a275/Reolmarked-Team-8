@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Reolmarked.Command;
-using Reolmarked.Data;
 using Reolmarked.Model;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Reolmarked.Helper;
 
 namespace Reolmarked.ViewModel
 {
@@ -61,7 +61,7 @@ namespace Reolmarked.ViewModel
 
         public PaymentViewModel()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             ProductsToPay = new ObservableCollection<Product>();
             PaymentMethods = new ObservableCollection<PaymentMethod>(context.PaymentMethod.ToList());
             AddProductToPaymentBtnClickCommand = new RelayCommand(AddProductToPaymentBtnClick);
@@ -70,7 +70,7 @@ namespace Reolmarked.ViewModel
 
         private void AddProductToPaymentBtnClick()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             Product ProductToPay = context.Product.FirstOrDefault(p => p.ProductSerialNumber == ProductSerialNumber);
             ProductsToPay.Add(ProductToPay);
             ProductsTotalPrice += ProductToPay.ProductPrice;
@@ -79,7 +79,7 @@ namespace Reolmarked.ViewModel
 
         private void PayBtnClick()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
 
             var PaymentChange = (PaymentPaidAmount - ProductsTotalPrice);
             var newTransaction = new Transaction(DateTime.Now, ProductsTotalPrice, PaymentPaidAmount, PaymentMethodId);

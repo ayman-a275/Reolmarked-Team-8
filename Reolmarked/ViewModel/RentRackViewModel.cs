@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Reolmarked.Model;
 using Microsoft.Extensions.Configuration;
-using Reolmarked.Data;
+using Reolmarked.Helper;
 
 namespace Reolmarked.ViewModel
 {

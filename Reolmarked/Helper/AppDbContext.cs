@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reolmarked.Data
+namespace Reolmarked.Helper
 {
     public class AppDbContext : DbContext
     {

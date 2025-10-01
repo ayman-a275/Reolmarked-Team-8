@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Reolmarked.View;
+using Reolmarked.Helper;
 
 namespace Reolmarked
 {
@@ -26,7 +27,7 @@ namespace Reolmarked
                 .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            string? connString = Configuration.GetConnectionString("DefaultConnection");
+            DbContextFactory.Initialize(Configuration);
         }
 
     }

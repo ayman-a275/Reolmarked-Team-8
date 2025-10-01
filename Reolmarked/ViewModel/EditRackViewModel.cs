@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using Microsoft.Extensions.Configuration;
 using Reolmarked.Command;
-using Reolmarked.Data;
+using Reolmarked.Helper;
 using Reolmarked.Model;
 using Reolmarked.View;
 
@@ -27,7 +27,6 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<RackType> RackTypes { get; set; }
         public ICommand SaveChangesCommand { get; }
         public ICommand CancelCommand { get; }
-        public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
         public event EventHandler RequestClose;
 
         public Rack RackToEdit
@@ -101,7 +100,7 @@ namespace Reolmarked.ViewModel
         {
             try
             {
-                using var context = new AppDbContext(connectionString);
+                using var context = DbContextFactory.CreateContext();
                 RackTypes = new ObservableCollection<RackType>(context.RackType.ToList());
             }
             catch (Exception ex)
@@ -119,7 +118,7 @@ namespace Reolmarked.ViewModel
             {
                 try
                 {
-                    using var context = new AppDbContext(connectionString);
+                    using var context = DbContextFactory.CreateContext();
                     var rentedRack = context.RentedRack.FirstOrDefault(r => r.RackNumber == RackToEdit.RackNumber);
 
                     if (rentedRack != null)
@@ -152,7 +151,7 @@ namespace Reolmarked.ViewModel
         {
             try
             {
-                using var context = new AppDbContext(connectionString);
+                using var context = DbContextFactory.CreateContext();
                 var rackToUpdate = context.Rack.FirstOrDefault(r => r.RackNumber == RackToEdit.RackNumber);
 
                 if (rackToUpdate != null)

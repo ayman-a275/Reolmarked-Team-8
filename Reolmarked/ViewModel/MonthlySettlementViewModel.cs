@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reolmarked.Command;
-using Reolmarked.Data;
 using Reolmarked.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Reolmarked.Helper;
 
 namespace Reolmarked.ViewModel
 {
@@ -70,7 +70,7 @@ namespace Reolmarked.ViewModel
         {
             SettlementSummaries.Clear();
 
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             var renters = context.Renter.ToList();
             var rentedRacks = context.RentedRack.ToList();
 
