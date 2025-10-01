@@ -14,6 +14,7 @@ using System.Windows.Interop;
 using Reolmarked.Helper;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
+using Reolmarked.View;
 
 namespace Reolmarked.ViewModel
 {
@@ -21,14 +22,35 @@ namespace Reolmarked.ViewModel
     {
         public ObservableCollection<Product> Products { get; set; }
         public ObservableCollection<Rack> Racks { get; set; }
+        private Rack? _selectedRack { get; set; }
+        private int _rackNumber;
         private string _productSerialNumber;
         private string? _productDescription;
         private decimal? _productPrice;
-        private int _rackNumber;
         public ICommand AddProductBtnClickCommand { get; }
         public ICommand GenerateBarCodeBtnClickCommand { get; }
         public ICommand PrintBarCodeBtnClickCommand { get; }
-        public int? SelectedRackNumber { get; set; }
+        public ICommand EditProductCommand { get; }
+
+        public Rack SelectedRack
+        {
+            get => _selectedRack;
+            set
+            {
+                _selectedRack = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int RackNumber
+        {
+            get => _rackNumber;
+            set
+            {
+                _rackNumber = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string ProductSerialNumber
         {
@@ -60,16 +82,6 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public int RackNumber
-        {
-            get => _rackNumber;
-            set
-            {
-                _rackNumber = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ProductViewModel()
         {
             using var context = DbContextFactory.CreateContext();
@@ -79,11 +91,12 @@ namespace Reolmarked.ViewModel
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
             GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
             PrintBarCodeBtnClickCommand = new RelayCommand(PrintBarCodeBtnClick);
+            EditProductCommand = new RelayCommand(EditProduct);
         }
 
         private async void AddProductBtnClick()
         {
-            if (!SelectedRackNumber.HasValue)
+            if (SelectedRack == null)
             {
                 System.Windows.MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
                 return;
@@ -101,7 +114,7 @@ namespace Reolmarked.ViewModel
                 return;
             }
 
-            var newProduct = new Product(ProductSerialNumber, ProductDescription!, ProductPrice!.Value, SelectedRackNumber!.Value);
+            var newProduct = new Product(ProductSerialNumber, ProductDescription!, ProductPrice!.Value, SelectedRack.RackNumber);
 
             try
             {
@@ -114,7 +127,7 @@ namespace Reolmarked.ViewModel
 
                 Products.Add(newProduct);
 
-                SelectedRackNumber = null;
+                SelectedRack = null;
                 ProductSerialNumber = string.Empty;
                 ProductDescription = string.Empty;
                 ProductPrice = null;
@@ -142,6 +155,37 @@ namespace Reolmarked.ViewModel
             }
 
             PrintBarCode.PrintBarcode(ProductSerialNumber);
+        }
+
+        private void EditProduct(object? parameter)
+        {
+            if (parameter is Product product)
+            {
+                var editProductWindow = new EditProductWindow(product);
+                editProductWindow.ShowDialog();
+                OnPropertyChanged();
+                RefreshProductsList();
+            }
+        }
+
+        private void RefreshProductsList()
+        {
+            try
+            {
+                using var context = DbContextFactory.CreateContext();
+                Products.Clear();
+                var updatedProducts = context.Product.Where(p => p.ProductSold == false).ToList();
+                foreach (var product in updatedProducts)
+                {
+                    Products.Add(product);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error refreshing products list: {ex.Message}");
+                System.Windows.MessageBox.Show($"Fejl ved opdatering af produktliste: {ex.Message}", "Fejl",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

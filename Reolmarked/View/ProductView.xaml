@@ -110,7 +110,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -222,54 +222,111 @@
                     </Border>
                 </StackPanel>
 
-                <DataGrid Grid.Row="1" 
-                         ItemsSource="{Binding Products}"
-                         AutoGenerateColumns="False"
-                         CanUserAddRows="False"
-                         CanUserDeleteRows="False"
-                         CanUserReorderColumns="False"
-                         CanUserResizeRows="False"
-                         GridLinesVisibility="Horizontal"
-                         HeadersVisibility="Column"
-                         Background="White"
-                         RowBackground="White"
-                         AlternatingRowBackground="#f8f9fa"
-                         FontSize="13">
+                <ListView Grid.Row="1" 
+                          ItemsSource="{Binding Products}" 
+                          Background="White"
+                          BorderBrush="#dee2e6"
+                          BorderThickness="1"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          AlternationCount="2">
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Serie nummer" Binding="{Binding ProductSerialNumber}" Width="*" MinWidth="120"/>
-                        <DataGridTextColumn Header="Reol" Binding="{Binding RackNumber}" Width="70">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Beskrivelse" Binding="{Binding ProductDescription}" Width="*" MinWidth="120"/>
-                        <DataGridTextColumn Header="Pris" Binding="{Binding ProductPrice, StringFormat=C, ConverterCulture=da-DK}" Width="100">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="Foreground" Value="#28a745"/>
-                                    <Setter Property="HorizontalAlignment" Value="Right"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent" 
+                                    Padding="15"
+                                    Margin="5"
+                                    CornerRadius="6"
+                                    BorderBrush="#dee2e6"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="Height" Value="40"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#e9ecef"/>
-                                </Trigger>
-                            </Style.Triggers>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="Serie nummer: " 
+                                                   FontWeight="SemiBold" 
+                                                   FontSize="14" 
+                                                   Foreground="#495057"/>
+                                        <TextBlock Text="{Binding ProductSerialNumber}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="14" 
+                                                   Foreground="#212529"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="1" 
+                                               Text="{Binding ProductPrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                               FontWeight="Bold" 
+                                               FontSize="16" 
+                                               Foreground="#28a745"
+                                               VerticalAlignment="Center"/>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="Reol: " 
+                                                   FontWeight="SemiBold" 
+                                                   FontSize="13" 
+                                                   Foreground="#495057"/>
+                                        <TextBlock Text="{Binding RackNumber}" 
+                                                   FontSize="13" 
+                                                   Foreground="#212529"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" 
+                                               Text="{Binding ProductDescription}" 
+                                               FontSize="13" 
+                                               Foreground="#6c757d" 
+                                               TextWrapping="Wrap" 
+                                               Margin="0,0,10,0"/>
+
+                                    <Button Grid.Row="2" Grid.Column="1" 
+                                            Content="Redigere" 
+                                            Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}"
+                                            Padding="12,6"
+                                            Background="#6c757d"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            VerticalAlignment="Bottom">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                        CornerRadius="4" 
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#5a6268"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
-                    </DataGrid.RowStyle>
-                </DataGrid>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </Grid>
         </Border>
     </Grid>
