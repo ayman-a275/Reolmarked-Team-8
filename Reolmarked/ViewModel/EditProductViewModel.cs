@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,11 +13,11 @@ namespace Reolmarked.ViewModel
 {
     public class EditProductViewModel : INotifyPropertyChanged
     {
+        public ObservableCollection<Rack> Racks { get; set; }
+        private int _selectedRackNumber;
         private Product _productToEdit;
         private string _productDescription;
         private decimal _productPrice;
-        private int _rackNumber;
-
         public ICommand SaveChangesCommand { get; }
         public ICommand DeleteProductCommand { get; }
         public ICommand CancelCommand { get; }
@@ -30,6 +31,16 @@ namespace Reolmarked.ViewModel
                 _productToEdit = value;
                 OnPropertyChanged();
                 LoadProductInfo();
+            }
+        }
+
+        public int SelectedRackNumber
+        {
+            get => _selectedRackNumber;
+            set
+            {
+                _selectedRackNumber = value;
+                OnPropertyChanged();
             }
         }
 
@@ -53,18 +64,11 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public int RackNumber
-        {
-            get => _rackNumber;
-            set
-            {
-                _rackNumber = value;
-                OnPropertyChanged();
-            }
-        }
-
         public EditProductViewModel(Product product)
         {
+            using var context = DbContextFactory.CreateContext();
+            Racks = new ObservableCollection<Rack>(context.Rack.ToList());
+
             ProductToEdit = product;
             SaveChangesCommand = new RelayCommand(SaveChanges);
             DeleteProductCommand = new RelayCommand(DeleteProduct);
@@ -75,7 +79,7 @@ namespace Reolmarked.ViewModel
         {
             ProductDescription = ProductToEdit.ProductDescription;
             ProductPrice = ProductToEdit.ProductPrice;
-            RackNumber = ProductToEdit.RackNumber;
+            SelectedRackNumber = ProductToEdit.RackNumber;
         }
 
         private void SaveChanges()
@@ -89,11 +93,11 @@ namespace Reolmarked.ViewModel
                 {
                     productToUpdate.ProductDescription = ProductDescription;
                     productToUpdate.ProductPrice = ProductPrice;
-                    productToUpdate.RackNumber = RackNumber;
+                    productToUpdate.RackNumber = SelectedRackNumber;
 
                     context.SaveChanges();
 
-                    MessageBox.Show("Ændringer gemt succesfuldt!", "Succès",
+                    MessageBox.Show("Ændringer gemt succesfuldt!", "Succes",
                                     MessageBoxButton.OK, MessageBoxImage.Information);
 
                     OnPropertyChanged();
