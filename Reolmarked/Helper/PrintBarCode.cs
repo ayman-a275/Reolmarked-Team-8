@@ -9,6 +9,11 @@ namespace Reolmarked.Helper
 {
     public static class PrintBarCode
     {
+
+        /*
+        Klasse til at printe barcoder. Skrevet af AI.
+         */
+
         private static Bitmap _barcodeToPrint;
 
         public static void PrintBarcode(string serialNumber)

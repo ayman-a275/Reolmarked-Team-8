@@ -21,9 +21,9 @@ namespace Reolmarked.ViewModel
     public class ProductViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Product> Products { get; set; }
-        public ObservableCollection<Rack> Racks { get; set; }
-        private Rack? _selectedRack { get; set; }
-        private int _rackNumber;
+        public ObservableCollection<Shelf> Shelfs { get; set; }
+        private Shelf? _selectedShelf { get; set; }
+        private int _shelfNumber;
         private string _productSerialNumber;
         private string? _productDescription;
         private decimal? _productPrice;
@@ -32,22 +32,22 @@ namespace Reolmarked.ViewModel
         public ICommand PrintBarCodeBtnClickCommand { get; }
         public ICommand EditProductCommand { get; }
 
-        public Rack SelectedRack
+        public Shelf SelectedShelf
         {
-            get => _selectedRack;
+            get => _selectedShelf;
             set
             {
-                _selectedRack = value;
+                _selectedShelf = value;
                 OnPropertyChanged();
             }
         }
 
-        public int RackNumber
+        public int ShelfNumber
         {
-            get => _rackNumber;
+            get => _shelfNumber;
             set
             {
-                _rackNumber = value;
+                _shelfNumber = value;
                 OnPropertyChanged();
             }
         }
@@ -86,7 +86,7 @@ namespace Reolmarked.ViewModel
         {
             using var context = DbContextFactory.CreateContext();
             Products = new ObservableCollection<Product>(context.Product.Where(p => p.ProductSold == false).ToList());
-            Racks = new ObservableCollection<Rack>(context.Rack.ToList());
+            Shelfs = new ObservableCollection<Shelf>(context.Shelf.ToList());
 
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
             GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
@@ -96,7 +96,7 @@ namespace Reolmarked.ViewModel
 
         private async void AddProductBtnClick()
         {
-            if (SelectedRack == null)
+            if (SelectedShelf == null)
             {
                 System.Windows.MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
                 return;
@@ -114,7 +114,7 @@ namespace Reolmarked.ViewModel
                 return;
             }
 
-            var newProduct = new Product(ProductSerialNumber, ProductDescription!, ProductPrice!.Value, SelectedRack.RackNumber);
+            var newProduct = new Product(ProductSerialNumber, ProductDescription!, ProductPrice!.Value, SelectedShelf.ShelfNumber);
 
             try
             {
@@ -127,7 +127,7 @@ namespace Reolmarked.ViewModel
 
                 Products.Add(newProduct);
 
-                SelectedRack = null;
+                SelectedShelf = null;
                 ProductSerialNumber = string.Empty;
                 ProductDescription = string.Empty;
                 ProductPrice = null;

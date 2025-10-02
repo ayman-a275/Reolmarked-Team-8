@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Reolmarked.View.RackView"
+﻿<UserControl x:Class="Reolmarked.View.ShelfView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -109,16 +109,16 @@
                            Margin="0,0,0,20"/>
 
                 <Label Content="Reol nummer" Style="{StaticResource FormLabel}"/>
-                <TextBox Text="{Binding RackNumber, UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Text="{Binding ShelfNumber, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}"
                          Margin="0,0,0,15"/>
 
                 <Label Content="Leje pris (kr./måned)" Style="{StaticResource FormLabel}"/>
-                <TextBox Text="{Binding RackPrice, UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Text="{Binding ShelfPrice, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}"
                          Margin="0,0,0,25"/>
 
-                <Button Command="{Binding AddRackBtnClickCommand}" 
+                <Button Command="{Binding AddShelfBtnClickCommand}" 
                         Content="Tilføj Reol" 
                         Style="{StaticResource PrimaryButton}"
                         HorizontalAlignment="Left"/>
@@ -141,7 +141,7 @@
                            Margin="0,0,0,20"/>
 
                 <ListView Grid.Row="1" 
-                          ItemsSource="{Binding Racks}" 
+                          ItemsSource="{Binding Shelfs}" 
                           Style="{StaticResource ColorCodedListView}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           AlternationCount="2">
@@ -159,10 +159,10 @@
                                                 <Border.Style>
                                                     <Style TargetType="Border">
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding RackRented}" Value="True">
+                                                            <DataTrigger Binding="{Binding ShelfRented}" Value="True">
                                                                 <Setter Property="Background" Value="#dc3545"/>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding RackRented}" Value="False">
+                                                            <DataTrigger Binding="{Binding ShelfRented}" Value="False">
                                                                 <Setter Property="Background" Value="#28a745"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
@@ -173,12 +173,12 @@
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding RackRented}" Value="True">
+                                                            <DataTrigger Binding="{Binding ShelfRented}" Value="True">
                                                                 <Setter Property="Text" Value="Udlejet"/>
                                                                 <Setter Property="Foreground" Value="#dc3545"/>
                                                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding RackRented}" Value="False">
+                                                            <DataTrigger Binding="{Binding ShelfRented}" Value="False">
                                                                 <Setter Property="Text" Value="Ledig"/>
                                                                 <Setter Property="Foreground" Value="#28a745"/>
                                                                 <Setter Property="FontWeight" Value="SemiBold"/>
@@ -195,7 +195,7 @@
                             <GridViewColumn Header="Reol Nr." Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RackNumber}" 
+                                        <TextBlock Text="{Binding ShelfNumber}" 
                                                    FontWeight="SemiBold"
                                                    VerticalAlignment="Center"/>
                                     </DataTemplate>
@@ -205,7 +205,7 @@
                             <GridViewColumn Header="Type" Width="150">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RackTypeName}" 
+                                        <TextBlock Text="{Binding ShelfTypeName}" 
                                                    VerticalAlignment="Center"
                                                    FontWeight="SemiBold"/>
                                     </DataTemplate>
@@ -225,7 +225,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Content="Redigere" 
-                                                Command="{Binding DataContext.EditRackCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                Command="{Binding DataContext.EditShelfCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}"
                                                 Padding="8,4"
                                                 Background="#6c757d"

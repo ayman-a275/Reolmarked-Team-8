@@ -9,6 +9,12 @@ namespace Reolmarked.Helper
 {
     public static class DbContextFactory
     {
+
+        /*
+         Vi valgte at bruge en factory class, så vi kunne undgå at skabe en ny AppDbContext klasse hvergang vi skulle bruge den i ViewModel. 
+        Så undgår vi gentagelser, og koden forbliver læsbar.
+         */
+
         private static string? _connectionString;
 
         public static void Initialize(IConfigurationRoot configuration)

@@ -17,20 +17,20 @@ using System.Windows.Shapes;
 namespace Reolmarked.View
 {
     /// <summary>
-    /// Interaction logic for EditRackWindow.xaml
+    /// Interaction logic for EditShelfWindow.xaml
     /// </summary>
-    public partial class EditRackWindow : Window
+    public partial class EditShelfWindow : Window
     {
-        public EditRackWindow(Rack rack)
+        public EditShelfWindow(Shelf shelf)
         {
             InitializeComponent();
-            DataContext = new EditRackViewModel(rack);
-            this.Loaded += EditRackWindow_Loaded;
+            DataContext = new EditShelfViewModel(shelf);
+            this.Loaded += EditShelfWindow_Loaded;
         }
 
-        private void EditRackWindow_Loaded(object sender, RoutedEventArgs e)
+        private void EditShelfWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DataContext is EditRackViewModel viewModel)
+            if (DataContext is EditShelfViewModel viewModel)
             {
                 viewModel.RequestClose += (s, args) => this.Close();
             }

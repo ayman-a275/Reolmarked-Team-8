@@ -10,6 +10,10 @@ namespace Reolmarked.Helper
 {
     public static class SerialNumberGenerator
     {
+        /*
+         Klasse til at genere random 10 cifret barcode.
+         Vi bruger do-while loop for at undgå at vi får en string der allerede eksistere.
+         */
         public static string GenerateRandomString()
         {
             using var context = DbContextFactory.CreateContext();

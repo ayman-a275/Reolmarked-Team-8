@@ -17,15 +17,15 @@ namespace Reolmarked.Model
         private decimal _productPrice;
         private string? _productDescription;
         private bool _productSold;
-        private int _rackNumber;
+        private int _shelfNumber;
 
-        public Product(string productSerialNumber, string productDescription, decimal productPrice, int rackNumber)
+        public Product(string productSerialNumber, string productDescription, decimal productPrice, int shelfNumber)
         {
             ProductSerialNumber = productSerialNumber;
             ProductDescription = productDescription;
             ProductPrice = productPrice;
             ProductSold = false;
-            RackNumber = rackNumber;
+            ShelfNumber = shelfNumber;
         }
 
         [Key]
@@ -69,12 +69,12 @@ namespace Reolmarked.Model
             }
         }
 
-        public int RackNumber
+        public int ShelfNumber
         {
-            get => _rackNumber;
+            get => _shelfNumber;
             set
             {
-                _rackNumber = value;
+                _shelfNumber = value;
                 OnPropertyChanged();
             }
         }

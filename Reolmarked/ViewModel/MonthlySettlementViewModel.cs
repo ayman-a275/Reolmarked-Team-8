@@ -72,18 +72,18 @@ namespace Reolmarked.ViewModel
 
             using var context = DbContextFactory.CreateContext();
             var renters = context.Renter.ToList();
-            var rentedRacks = context.RentedRack.ToList();
+            var rentedShelfs = context.RentedShelf.ToList();
 
             foreach (var renter in renters)
             {
-                var renterRacks = rentedRacks.Where(rr => rr.RenterId == renter.RenterId).ToList();
-                if (!renterRacks.Any()) continue;
+                var renterShelfs = rentedShelfs.Where(rr => rr.RenterId == renter.RenterId).ToList();
+                if (!renterShelfs.Any()) continue;
 
-                decimal totalRent = renterRacks.Sum(rr => rr.RentedRackAgreedPrice);
+                decimal totalRent = renterShelfs.Sum(rr => rr.RentedShelfAgreedPrice);
 
                 var soldProducts = context.Product
                     .Where(p => p.ProductSold &&
-                               renterRacks.Select(rr => rr.RackNumber).Contains(p.RackNumber))
+                               renterShelfs.Select(rr => rr.ShelfNumber).Contains(p.ShelfNumber))
                     .Join(context.TransactionLine, p => p.ProductSerialNumber, tl => tl.ProductSerialNumber, (p, tl) => new { Product = p, TransactionLine = tl })
                     .Join(context.Transaction, ptl => ptl.TransactionLine.TransactionId, t => t.TransactionId, (ptl, t) => new { ptl.Product, Transaction = t })
                     .Where(result => result.Transaction.TransactionDateTime.Year == SelectedMonth.Year &&

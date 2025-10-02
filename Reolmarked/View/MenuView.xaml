@@ -211,9 +211,9 @@
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="12,20">
                 <StackPanel>
                     <Button x:Name="ProductBtn" Content="Vare" Style="{StaticResource MenuButton}"/>
-                    <Button x:Name="RackBtn" Content="Reol" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="ShelfBtn" Content="Reol" Style="{StaticResource MenuButton}"/>
                     <Button x:Name="RenterBtn" Content="Lejer" Style="{StaticResource MenuButton}"/>
-                    <Button x:Name="RentRackBtn" Content="Leje af reol" Style="{StaticResource MenuButton}"/>
+                    <Button x:Name="RentShelfBtn" Content="Leje af reol" Style="{StaticResource MenuButton}"/>
 
                     <Separator Margin="8,20" Background="#dee2e6"/>
 

@@ -9,6 +9,14 @@ namespace Reolmarked.Command
 {
     public class RelayCommand : ICommand
     {
+        /*
+         RelayCommand bruges til at have en fleksibel klasse, 
+        der håndterer kommandoer i ViewModel uden at man behøver 
+        at skrive en ny ICommand-klasse for hver enkelt handling.
+
+        På den måde holder vi MVVM-strukturen læsbar.
+         */
+
         private readonly Action<object?> _execute;
         private readonly Func<object?, bool>? _canExecute;
 

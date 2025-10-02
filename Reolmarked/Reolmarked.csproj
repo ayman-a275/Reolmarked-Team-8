@@ -43,7 +43,7 @@
     <Compile Update="View\RenterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\RackView.xaml.cs">
+    <Compile Update="View\ShelfView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -16,44 +16,44 @@ using Reolmarked.View;
 
 namespace Reolmarked.ViewModel
 {
-    public class EditRackViewModel : INotifyPropertyChanged
+    public class EditShelfViewModel : INotifyPropertyChanged
     {
-        private Rack _rackToEdit;
+        private Shelf _shelfToEdit;
         private string _renterName;
         private decimal _agreedPrice;
-        private bool _isRackRented;
-        private int _selectedRackTypeId;
+        private bool _isShelfRented;
+        private int _selectedShelfTypeId;
 
-        public ObservableCollection<RackType> RackTypes { get; set; }
+        public ObservableCollection<ShelfType> ShelfTypes { get; set; }
         public ICommand SaveChangesCommand { get; }
         public ICommand CancelCommand { get; }
         public event EventHandler RequestClose;
 
-        public Rack RackToEdit
+        public Shelf ShelfToEdit
         {
-            get => _rackToEdit;
+            get => _shelfToEdit;
             set
             {
-                _rackToEdit = value;
+                _shelfToEdit = value;
                 OnPropertyChanged();
-                if (_rackToEdit != null)
+                if (_shelfToEdit != null)
                 {
-                    SelectedRackTypeId = _rackToEdit.RackTypeId;
+                    SelectedShelfTypeId = _shelfToEdit.ShelfTypeId;
                 }
                 LoadRentalInfo();
             }
         }
 
-        public int SelectedRackTypeId
+        public int SelectedShelfTypeId
         {
-            get => _selectedRackTypeId;
+            get => _selectedShelfTypeId;
             set
             {
-                _selectedRackTypeId = value;
+                _selectedShelfTypeId = value;
                 OnPropertyChanged();
-                if (_rackToEdit != null)
+                if (_shelfToEdit != null)
                 {
-                    _rackToEdit.RackTypeId = value;
+                    _shelfToEdit.ShelfTypeId = value;
                 }
             }
         }
@@ -78,54 +78,54 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public bool IsRackRented
+        public bool IsShelfRented
         {
-            get => _isRackRented;
+            get => _isShelfRented;
             set
             {
-                _isRackRented = value;
+                _isShelfRented = value;
                 OnPropertyChanged();
             }
         }
 
-        public EditRackViewModel(Rack rack)
+        public EditShelfViewModel(Shelf shelf)
         {
-            RackToEdit = rack;
-            LoadRackTypes();
+            ShelfToEdit = shelf;
+            LoadShelfTypes();
             SaveChangesCommand = new RelayCommand(SaveChanges);
             CancelCommand = new RelayCommand(Cancel);
         }
 
-        private void LoadRackTypes()
+        private void LoadShelfTypes()
         {
             try
             {
                 using var context = DbContextFactory.CreateContext();
-                RackTypes = new ObservableCollection<RackType>(context.RackType.ToList());
+                ShelfTypes = new ObservableCollection<ShelfType>(context.ShelfType.ToList());
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading rack types: {ex.Message}");
-                RackTypes = new ObservableCollection<RackType>();
+                System.Diagnostics.Debug.WriteLine($"Error loading shelf types: {ex.Message}");
+                ShelfTypes = new ObservableCollection<ShelfType>();
             }
         }
 
         private void LoadRentalInfo()
         {
-            IsRackRented = RackToEdit.RackRented;
+            IsShelfRented = ShelfToEdit.ShelfRented;
 
-            if (IsRackRented)
+            if (IsShelfRented)
             {
                 try
                 {
                     using var context = DbContextFactory.CreateContext();
-                    var rentedRack = context.RentedRack.FirstOrDefault(r => r.RackNumber == RackToEdit.RackNumber);
+                    var rentedShelf = context.RentedShelf.FirstOrDefault(r => r.ShelfNumber == ShelfToEdit.ShelfNumber);
 
-                    if (rentedRack != null)
+                    if (rentedShelf != null)
                     {
-                        var renter = context.Renter.FirstOrDefault(r => r.RenterId == rentedRack.RenterId);
+                        var renter = context.Renter.FirstOrDefault(r => r.RenterId == rentedShelf.RenterId);
                         RenterName = renter?.RenterName ?? "Ukendt lejer";
-                        AgreedPrice = rentedRack.RentedRackAgreedPrice;
+                        AgreedPrice = rentedShelf.RentedShelfAgreedPrice;
                     }
                     else
                     {
@@ -152,11 +152,11 @@ namespace Reolmarked.ViewModel
             try
             {
                 using var context = DbContextFactory.CreateContext();
-                var rackToUpdate = context.Rack.FirstOrDefault(r => r.RackNumber == RackToEdit.RackNumber);
+                var shelfToUpdate = context.Shelf.FirstOrDefault(r => r.ShelfNumber == ShelfToEdit.ShelfNumber);
 
-                if (rackToUpdate != null)
+                if (shelfToUpdate != null)
                 {
-                    rackToUpdate.RackTypeId = SelectedRackTypeId;
+                    shelfToUpdate.ShelfTypeId = SelectedShelfTypeId;
 
                     context.SaveChanges();
 
@@ -176,7 +176,7 @@ namespace Reolmarked.ViewModel
             {
                 MessageBox.Show($"Fejl ved gemning af ændringer: {ex.Message}", "Fejl",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
-                System.Diagnostics.Debug.WriteLine($"Error saving rack changes: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error saving shelf changes: {ex.Message}");
             }
         }
 

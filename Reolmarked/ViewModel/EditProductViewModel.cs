@@ -13,8 +13,8 @@ namespace Reolmarked.ViewModel
 {
     public class EditProductViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Rack> Racks { get; set; }
-        private int _selectedRackNumber;
+        public ObservableCollection<Shelf> Shelfs { get; set; }
+        private int _selectedShelfNumber;
         private Product _productToEdit;
         private string _productDescription;
         private decimal _productPrice;
@@ -34,12 +34,12 @@ namespace Reolmarked.ViewModel
             }
         }
 
-        public int SelectedRackNumber
+        public int SelectedShelfNumber
         {
-            get => _selectedRackNumber;
+            get => _selectedShelfNumber;
             set
             {
-                _selectedRackNumber = value;
+                _selectedShelfNumber = value;
                 OnPropertyChanged();
             }
         }
@@ -67,7 +67,7 @@ namespace Reolmarked.ViewModel
         public EditProductViewModel(Product product)
         {
             using var context = DbContextFactory.CreateContext();
-            Racks = new ObservableCollection<Rack>(context.Rack.ToList());
+            Shelfs = new ObservableCollection<Shelf>(context.Shelf.ToList());
 
             ProductToEdit = product;
             SaveChangesCommand = new RelayCommand(SaveChanges);
@@ -79,7 +79,7 @@ namespace Reolmarked.ViewModel
         {
             ProductDescription = ProductToEdit.ProductDescription;
             ProductPrice = ProductToEdit.ProductPrice;
-            SelectedRackNumber = ProductToEdit.RackNumber;
+            SelectedShelfNumber = ProductToEdit.ShelfNumber;
         }
 
         private void SaveChanges()
@@ -93,7 +93,7 @@ namespace Reolmarked.ViewModel
                 {
                     productToUpdate.ProductDescription = ProductDescription;
                     productToUpdate.ProductPrice = ProductPrice;
-                    productToUpdate.RackNumber = SelectedRackNumber;
+                    productToUpdate.ShelfNumber = SelectedShelfNumber;
 
                     context.SaveChanges();
 

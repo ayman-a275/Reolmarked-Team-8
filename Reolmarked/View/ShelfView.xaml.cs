@@ -23,10 +23,10 @@ namespace Reolmarked.View
     /// <summary>
     /// Interaction logic for AddProduct.xaml
     /// </summary>
-    public partial class RackView : UserControl
+    public partial class ShelfView : UserControl
     {
 
-        public RackView()
+        public ShelfView()
         {
             InitializeComponent();
         }

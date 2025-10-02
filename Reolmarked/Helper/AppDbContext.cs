@@ -10,14 +10,27 @@ namespace Reolmarked.Helper
 {
     public class AppDbContext : DbContext
     {
+
+        /*
+         Vi var allerede startet med og committed i at at bruge Entity Framework, 
+         før vi vidste at vi skulle bruge SQL prepared statements.
+
+         Det er vi selvfølelig opmærksomme omkring til eksamensprojektet.
+         */
+
+        /*
+         AppDbContext arver fra DbContext i Entity Framework og bruges til at udføre queries 
+         ved hjælp af objekter i stedet for at skrive SQL direkte, som kan være en sikkerhedstrussel.
+         */
+
         public DbSet<Product> Product { get; set; }
-        public DbSet<Rack> Rack { get; set; }
-        public DbSet<RackType> RackType { get; set; }
+        public DbSet<Shelf> Shelf { get; set; }
+        public DbSet<ShelfType> ShelfType { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<TransactionLine> TransactionLine { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<Renter> Renter { get; set; }
-        public DbSet<RentedRack> RentedRack { get; set; }
+        public DbSet<RentedShelf> RentedShelf { get; set; }
         public DbSet<MonthlySettlement> MonthlySettlement { get; set; }
 
         private readonly string _connectionString;

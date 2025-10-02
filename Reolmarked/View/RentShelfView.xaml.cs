@@ -18,9 +18,9 @@ namespace Reolmarked.View
     /// <summary>
     /// Interaction logic for RenterView.xaml
     /// </summary>
-    public partial class RentRackView : UserControl
+    public partial class RentShelfView : UserControl
     {
-        public RentRackView()
+        public RentShelfView()
         {
             InitializeComponent();
         }

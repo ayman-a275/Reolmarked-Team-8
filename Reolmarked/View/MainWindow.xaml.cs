@@ -28,10 +28,10 @@ namespace Reolmarked.View
                 DataContext = new ProductViewModel();
             };
 
-            _menuView.RackBtn.Click += (s, e) =>
+            _menuView.ShelfBtn.Click += (s, e) =>
             {
-                MainContent.Content = new RackView();
-                DataContext = new RackViewModel();
+                MainContent.Content = new ShelfView();
+                DataContext = new ShelfViewModel();
             };
 
             _menuView.PaymentBtn.Click += (s, e) =>
@@ -47,10 +47,10 @@ namespace Reolmarked.View
                 DataContext = new RenterViewModel();
             };
 
-            _menuView.RentRackBtn.Click += (s, e) =>
+            _menuView.RentShelfBtn.Click += (s, e) =>
             {
-                MainContent.Content = new RentRackView();
-                DataContext = new RentRackViewModel();
+                MainContent.Content = new RentShelfView();
+                DataContext = new RentShelfViewModel();
             };
 
             _menuView.MonthlySettlementBtn.Click += (s, e) =>
