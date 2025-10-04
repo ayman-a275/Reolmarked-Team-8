@@ -15,13 +15,14 @@ using Reolmarked.Helper;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
 using Reolmarked.View;
+using System.Windows;
 
 namespace Reolmarked.ViewModel
 {
     public class ProductViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Product> Products { get; set; }
-        public ObservableCollection<Shelf> Shelfs { get; set; }
+        public ObservableCollection<Product> _products;
+        public ObservableCollection<Shelf> _shelfs;
         private Shelf? _selectedShelf { get; set; }
         private int _shelfNumber;
         private string _productSerialNumber;
@@ -31,6 +32,26 @@ namespace Reolmarked.ViewModel
         public ICommand GenerateBarCodeBtnClickCommand { get; }
         public ICommand PrintBarCodeBtnClickCommand { get; }
         public ICommand EditProductCommand { get; }
+
+        public ObservableCollection<Product> Products
+        {
+            get => _products;
+            set
+            {
+                _products = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Shelf> Shelfs
+        {
+            get => _shelfs;
+            set
+            {
+                _shelfs = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Shelf SelectedShelf
         {
@@ -84,9 +105,10 @@ namespace Reolmarked.ViewModel
 
         public ProductViewModel()
         {
-            using var context = DbContextFactory.CreateContext();
-            Products = new ObservableCollection<Product>(context.Product.Where(p => p.ProductSold == false).ToList());
-            Shelfs = new ObservableCollection<Shelf>(context.Shelf.ToList());
+            Products = new ObservableCollection<Product>();
+            Shelfs = new ObservableCollection<Shelf>();
+            LoadProductsAsync();
+            LoadShelfsAsync();
 
             AddProductBtnClickCommand = new RelayCommand(AddProductBtnClick);
             GenerateBarCodeBtnClickCommand = new RelayCommand(GenerateBarCodeBtnClick);
@@ -94,23 +116,61 @@ namespace Reolmarked.ViewModel
             EditProductCommand = new RelayCommand(EditProduct);
         }
 
+        private async void LoadProductsAsync()
+        {
+            try
+            {
+                var products = await Task.Run(() =>
+                {
+                    using var context = DbContextFactory.CreateContext();
+                    var products = context.Product.Where(p => p.ProductSold == false).ToList();
+                    return products;
+                });
+
+                Products = new ObservableCollection<Product>(products);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved forbindelse til database: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void LoadShelfsAsync()
+        {
+            try
+            {
+                var shelfs = await Task.Run(() =>
+                {
+                    using var context = DbContextFactory.CreateContext();
+                    var shelfs = context.Shelf.ToList();
+                    return shelfs;
+                });
+
+                Shelfs = new ObservableCollection<Shelf>(shelfs);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved forbindelse til database: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private async void AddProductBtnClick()
         {
             if (SelectedShelf == null)
             {
-                System.Windows.MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
+                MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(ProductSerialNumber))
             {
-                System.Windows.MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
+                MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
                 return;
             }
 
             if (!ProductPrice.HasValue || ProductPrice <= 0)
             {
-                System.Windows.MessageBox.Show("Pris skal være større end 0.", "Valideringsfejl");
+                MessageBox.Show("Pris skal være større end 0.", "Valideringsfejl");
                 return;
             }
 
@@ -127,6 +187,8 @@ namespace Reolmarked.ViewModel
 
                 Products.Add(newProduct);
 
+                MessageBox.Show("Vare gemt succesfuldt!", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 SelectedShelf = null;
                 ProductSerialNumber = string.Empty;
                 ProductDescription = string.Empty;
@@ -135,9 +197,7 @@ namespace Reolmarked.ViewModel
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error adding product to database: {ex.Message}");
-                System.Windows.MessageBox.Show($"Fejl ved tilføjelse af produkt: {ex.Message}", "Fejl",
-                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                MessageBox.Show($"Fejl ved tilføjelse af produkt: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -150,7 +210,7 @@ namespace Reolmarked.ViewModel
         {
             if (string.IsNullOrWhiteSpace(ProductSerialNumber))
             {
-                System.Windows.MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
+                MessageBox.Show("Serie nummer skal udfyldes.", "Valideringsfejl");
                 return;
             }
 
@@ -164,27 +224,7 @@ namespace Reolmarked.ViewModel
                 var editProductWindow = new EditProductWindow(product);
                 editProductWindow.ShowDialog();
                 OnPropertyChanged();
-                RefreshProductsList();
-            }
-        }
-
-        private void RefreshProductsList()
-        {
-            try
-            {
-                using var context = DbContextFactory.CreateContext();
-                Products.Clear();
-                var updatedProducts = context.Product.Where(p => p.ProductSold == false).ToList();
-                foreach (var product in updatedProducts)
-                {
-                    Products.Add(product);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error refreshing products list: {ex.Message}");
-                System.Windows.MessageBox.Show($"Fejl ved opdatering af produktliste: {ex.Message}", "Fejl",
-                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                LoadProductsAsync();
             }
         }
 

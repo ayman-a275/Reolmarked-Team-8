@@ -111,18 +111,13 @@ namespace Reolmarked.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fejl ved gemning af ændringer: {ex.Message}", "Fejl",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-                System.Diagnostics.Debug.WriteLine($"Error saving product changes: {ex.Message}");
+                MessageBox.Show($"Fejl ved gemning af ændringer: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void DeleteProduct()
         {
-            var result = MessageBox.Show("Er du sikker på at du vil slette dette produkt? Denne handling kan ikke fortrydes.",
-                                       "Bekræft sletning",
-                                       MessageBoxButton.YesNo,
-                                       MessageBoxImage.Warning);
+            var result = MessageBox.Show("Er du sikker på at du vil slette dette produkt? Denne handling kan ikke fortrydes.", "Bekræft sletning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -136,32 +131,25 @@ namespace Reolmarked.ViewModel
                         context.Product.Remove(productToDelete);
                         context.SaveChanges();
 
-                        MessageBox.Show("Produkt slettet succesfuldt!", "Succès",
-                                        MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Produkt slettet succesfuldt!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         OnRequestClose();
                     }
                     else
                     {
-                        MessageBox.Show("Kunne ikke finde produkt i databasen.", "Fejl",
-                                        MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Kunne ikke finde produkt i databasen.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Fejl ved sletning af produkt: {ex.Message}", "Fejl",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
-                    System.Diagnostics.Debug.WriteLine($"Error deleting product: {ex.Message}");
+                    MessageBox.Show($"Fejl ved sletning af produkt: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
 
         private void Cancel()
         {
-            var result = MessageBox.Show("Er du sikker på at du vil annullere? Alle ikke-gemte ændringer vil gå tabt.",
-                                       "Bekræft annullering",
-                                       MessageBoxButton.YesNo,
-                                       MessageBoxImage.Question);
+            var result = MessageBox.Show("Er du sikker på at du vil annullere? Alle ikke-gemte ændringer vil gå tabt.", "Bekræft annullering", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
