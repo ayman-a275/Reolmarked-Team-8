@@ -8,125 +8,16 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="#f8f9fa">
 
-    <UserControl.Resources>
-        <Style x:Key="CardStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="#007bff"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="16,8"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="6" 
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#0056b3"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#004085"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ModernTextBox" TargetType="TextBox">
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="BorderBrush" Value="#ced4da"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ScrollViewer x:Name="PART_ContentHost"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="#007bff"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="FormLabel" TargetType="Label">
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#495057"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-
-        <Style x:Key="ColorCodedListView" TargetType="ListView">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#dee2e6"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-
-    </UserControl.Resources>
-
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
-            <StackPanel>
-                <TextBlock Text="Tilføj Ny Reol" 
-                           FontSize="24" 
-                           FontWeight="Bold" 
-                           Foreground="#212529" 
-                           Margin="0,0,0,20"/>
-
-                <Label Content="Reol nummer" Style="{StaticResource FormLabel}"/>
-                <TextBox Text="{Binding ShelfNumber, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,15"/>
-
-                <Label Content="Leje pris (kr./måned)" Style="{StaticResource FormLabel}"/>
-                <TextBox Text="{Binding ShelfPrice, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,25"/>
-
-                <Button Command="{Binding AddShelfBtnClickCommand}" 
-                        Content="Tilføj Reol" 
-                        Style="{StaticResource PrimaryButton}"
-                        HorizontalAlignment="Left"/>
-
-            </StackPanel>
-        </Border>
-
-        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource CardStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -141,7 +32,7 @@
                            Margin="0,0,0,20"/>
 
                 <ListView Grid.Row="1" 
-                          ItemsSource="{Binding Shelfs}" 
+                          ItemsSource="{Binding ShelfsWithTypeName}" 
                           Style="{StaticResource ColorCodedListView}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           AlternationCount="2">

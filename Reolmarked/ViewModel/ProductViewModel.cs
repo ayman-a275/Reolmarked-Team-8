@@ -24,7 +24,6 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<Product> _products;
         public ObservableCollection<Shelf> _shelfs;
         private Shelf? _selectedShelf { get; set; }
-        private int _shelfNumber;
         private string _productSerialNumber;
         private string? _productDescription;
         private decimal? _productPrice;
@@ -59,16 +58,6 @@ namespace Reolmarked.ViewModel
             set
             {
                 _selectedShelf = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int ShelfNumber
-        {
-            get => _shelfNumber;
-            set
-            {
-                _shelfNumber = value;
                 OnPropertyChanged();
             }
         }
@@ -142,7 +131,7 @@ namespace Reolmarked.ViewModel
                 var shelfs = await Task.Run(() =>
                 {
                     using var context = DbContextFactory.CreateContext();
-                    var shelfs = context.Shelf.ToList();
+                    var shelfs = context.Shelf.Where(s => s.ShelfRented).ToList();
                     return shelfs;
                 });
 

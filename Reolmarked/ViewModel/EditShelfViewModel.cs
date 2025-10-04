@@ -53,6 +53,7 @@ namespace Reolmarked.ViewModel
                 OnPropertyChanged();
                 if (_shelfToEdit != null)
                 {
+
                     _shelfToEdit.ShelfTypeId = value;
                 }
             }
@@ -105,7 +106,6 @@ namespace Reolmarked.ViewModel
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading shelf types: {ex.Message}");
                 ShelfTypes = new ObservableCollection<ShelfType>();
             }
         }
@@ -135,7 +135,6 @@ namespace Reolmarked.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error loading rental info: {ex.Message}");
                     RenterName = "Fejl ved indlæsning";
                     AgreedPrice = 0;
                 }
@@ -160,32 +159,25 @@ namespace Reolmarked.ViewModel
 
                     context.SaveChanges();
 
-                    MessageBox.Show("Ændringer gemt succesfuldt!", "Succès",
-                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Ændringer gemt succesfuldt!", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     OnPropertyChanged();
                     OnRequestClose();
                 }
                 else
                 {
-                    MessageBox.Show("Kunne ikke finde reol i databasen.", "Fejl",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Kunne ikke finde reol i databasen.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fejl ved gemning af ændringer: {ex.Message}", "Fejl",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-                System.Diagnostics.Debug.WriteLine($"Error saving shelf changes: {ex.Message}");
+                MessageBox.Show($"Fejl ved gemning af ændringer: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Cancel()
         {
-            var result = MessageBox.Show("Er du sikker på at du vil annullere? Alle ikke-gemte ændringer vil gå tabt.",
-                                       "Bekræft annullering",
-                                       MessageBoxButton.YesNo,
-                                       MessageBoxImage.Question);
+            var result = MessageBox.Show("Er du sikker på at du vil annullere? Alle ikke-gemte ændringer vil gå tabt.", "Bekræft annullering", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {

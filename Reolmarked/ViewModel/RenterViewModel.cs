@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Reolmarked.Helper;
+using System.Windows;
 
 namespace Reolmarked.ViewModel
 {
@@ -21,6 +22,7 @@ namespace Reolmarked.ViewModel
         public ObservableCollection<Renter> Renters { get; set; }
         private string _renterName;
         private string _renterTelephoneNumber;
+        private string _renterEmail;
         private string _renterAccountNumber;
         public ICommand AddRenterBtnClickCommand { get; }
 
@@ -44,6 +46,16 @@ namespace Reolmarked.ViewModel
             }
         }
 
+        public string RenterEmail
+        {
+            get => _renterEmail;
+            set
+            {
+                _renterEmail = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string RenterAccountNumber
         {
             get => _renterAccountNumber;
@@ -63,32 +75,52 @@ namespace Reolmarked.ViewModel
 
         private async void AddRenterBtnClick()
         {
-            var newRenter = new Renter(RenterName, RenterTelephoneNumber)
+            if (string.IsNullOrWhiteSpace(RenterName))
             {
-                RenterAccountNumber = RenterAccountNumber
-            };
-            Renters.Add(newRenter);
+                MessageBox.Show("Lejers navn skal udfyldes.", "Valideringsfejl");
+                return;
+            }
 
+            if (string.IsNullOrWhiteSpace(RenterTelephoneNumber))
+            {
+                MessageBox.Show("Lejers tlf. nr. skal udfyldes.", "Valideringsfejl");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(RenterEmail))
+            {
+                MessageBox.Show("Lejers e-mail skal udfyldes.", "Valideringsfejl");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(RenterAccountNumber))
+            {
+                MessageBox.Show("Lejers reg. og konto nr. skal udfyldes.", "Valideringsfejl");
+                return;
+            }
+
+            var newRenter = new Renter(RenterName, RenterEmail, RenterTelephoneNumber, RenterAccountNumber);
             try
             {
                 await Task.Run(() =>
                 {
-                    var dbRenter = new Renter(RenterName, RenterTelephoneNumber)
-                    {
-                        RenterAccountNumber = RenterAccountNumber
-                    };
                     using var context = DbContextFactory.CreateContext();
-                    context.Renter.Add(dbRenter);
+                    context.Renter.Add(newRenter);
                     context.SaveChanges();
                 });
 
+                Renters.Add(newRenter);
+
+                MessageBox.Show("Lejer gemt succesfuldt!", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 RenterName = string.Empty;
                 RenterTelephoneNumber = string.Empty;
+                RenterEmail = string.Empty;
                 RenterAccountNumber = string.Empty;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error adding renter to database: {ex.Message}");
+                MessageBox.Show($"Fejl ved tilføjelse af lejer: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

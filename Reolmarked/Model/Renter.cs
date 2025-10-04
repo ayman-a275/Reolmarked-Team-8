@@ -15,12 +15,12 @@ namespace Reolmarked.Model
         string _renterEmail;
         string _renterAccountNumber;
 
-        public Renter(string renterName, string renterTelephoneNumber)
+        public Renter(string renterName, string renterTelephoneNumber, string renterEmail, string renterAccountNumber)
         {
             RenterName = renterName;
             RenterTelephoneNumber = renterTelephoneNumber;
-            RenterEmail = "0";
-            RenterAccountNumber = "";
+            RenterEmail = renterEmail;
+            RenterAccountNumber = renterAccountNumber;
         }
 
         [Key]
