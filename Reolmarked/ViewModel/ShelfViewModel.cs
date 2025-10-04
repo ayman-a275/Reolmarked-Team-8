@@ -49,7 +49,7 @@ namespace Reolmarked.ViewModel
                 {
                     List<ShelfWithTypeName> shelfsWithTypeName = new List<ShelfWithTypeName>();
                     ShelfType shelfTypeToUse;
-                    RentedShelf rentedShelfToUse;
+                    RentalAgreement rentedShelfToUse;
                     var shelfs = context.Shelf.ToList();
                     var rentedShelf = context.RentedShelf.ToList();
                     var shelfTypeName = context.ShelfType.ToList();

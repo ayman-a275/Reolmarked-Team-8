@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Reolmarked.Model;
 using Microsoft.Extensions.Configuration;
 using Reolmarked.Helper;
+using System.Windows;
 
 namespace Reolmarked.ViewModel
 {
@@ -19,11 +20,12 @@ namespace Reolmarked.ViewModel
     {
         private string _BtnShelfColor = "#00a67d";
         private bool _BtnShelfBool;
+        private decimal _rentedAgreedPrice;
+        private Renter? _selectedRenter;
         public ObservableCollection<Renter> Renters { get; set; }
-        public ObservableCollection<RentedShelf> RentedShelfs { get; set; }
+        public ObservableCollection<RentalAgreement> RentedShelfs { get; set; }
         public ObservableCollection<Shelf> Shelfs { get; set; }
         public ObservableCollection<BookingShelf> BookingShelfs { get; set; }
-        public static string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
 
         public string BtnShelfColor { 
             get => _BtnShelfColor; 
@@ -43,17 +45,37 @@ namespace Reolmarked.ViewModel
             }
         }
 
+        public decimal RentedAgreedPrice
+        {
+            get => _rentedAgreedPrice;
+            set
+            {
+                _rentedAgreedPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Renter? SelectedRenter
+        {
+            get => _selectedRenter;
+            set
+            {
+                _selectedRenter = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand BtnShelfClickedCommand { get; }
         public ICommand BtnBookShelfClickedCommand { get; }
 
         public RentShelfViewModel()
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             Renters = new ObservableCollection<Renter>(context.Renter.ToList());
-            RentedShelfs = new ObservableCollection<RentedShelf>(context.RentedShelf.ToList());
+            RentedShelfs = new ObservableCollection<RentalAgreement>(context.RentedShelf.ToList());
             Shelfs = new ObservableCollection<Shelf>(context.Shelf.ToList());
             BtnShelfClickedCommand = new RelayCommand(BtnShelfClicked, canExecuteBtnShelfClicked);
-            BtnBookShelfClickedCommand = new RelayCommand(BtnBookShelfClicked, canExecuteBtnBookShelfClicked);
+            BtnBookShelfClickedCommand = new RelayCommand(BtnBookShelfClicked);
             BookingShelfs = new ObservableCollection<BookingShelf>();
 
             foreach (Shelf shelf in Shelfs)
@@ -74,7 +96,7 @@ namespace Reolmarked.ViewModel
 
         public bool canExecuteBtnShelfClicked(object? index)
         {
-            using var context = new AppDbContext(connectionString);
+            using var context = DbContextFactory.CreateContext();
             int indexNum = Convert.ToInt32(index);
             var shelf = BookingShelfs[indexNum];
             Shelf shelfToCheck = context.Shelf.FirstOrDefault(r => r.ShelfNumber == shelf.ShelfNumber);
@@ -85,24 +107,29 @@ namespace Reolmarked.ViewModel
 
         public void BtnBookShelfClicked()
         {
-            using var context = new AppDbContext(connectionString);
+            if (!BookingShelfs.Any(b => b.ShelfClicked))
+            {
+                MessageBox.Show("Du skal have valgt mindst 1 reol.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            RentalAgreement newRentedShelf;
+            Shelf shelfToChange;
+            decimal calculatedPrice = RentedAgreedPrice / BookingShelfs.Count;
+
+            using var context = DbContextFactory.CreateContext();
             foreach (BookingShelf bookingShelf in BookingShelfs)
             {
                 if (bookingShelf.ShelfClicked)
                 {
-                    Shelf shelfToChange = context.Shelf.FirstOrDefault(r => r.ShelfNumber == bookingShelf.ShelfNumber);
+                    shelfToChange = context.Shelf.FirstOrDefault(r => r.ShelfNumber == bookingShelf.ShelfNumber);
+                    newRentedShelf = new RentalAgreement(bookingShelf.ShelfNumber, SelectedRenter.RenterId, calculatedPrice);
+                    context.RentedShelf.Add(newRentedShelf);
                     shelfToChange.ShelfRented = true;
                     context.SaveChanges();
                 }
 
             }
         }
-
-        public bool canExecuteBtnBookShelfClicked()
-        {
-            return true;
-        }
-
 
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

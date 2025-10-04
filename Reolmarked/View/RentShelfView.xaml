@@ -154,13 +154,13 @@
                 <Label Content="Vælg Lejer" Style="{StaticResource FormLabel}"/>
                 <ComboBox ItemsSource="{Binding Renters}" 
                          DisplayMemberPath="RenterName"
-                         SelectedValuePath="RenterId"
+                         SelectedItem="{Binding SelectedRenter}"
                          Height="40"
                          FontSize="14"
                          Margin="0,0,0,25"/>
 
                 <Label Content="Pris (kr.)" Style="{StaticResource FormLabel}"/>
-                <TextBox Text="{Binding ProductPrice, UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Text="{Binding RentedAgreedPrice, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}"
                          Margin="0,0,0,25"/>
 

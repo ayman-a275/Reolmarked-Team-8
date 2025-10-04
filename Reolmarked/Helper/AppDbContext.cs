@@ -30,7 +30,8 @@ namespace Reolmarked.Helper
         public DbSet<TransactionLine> TransactionLine { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<Renter> Renter { get; set; }
-        public DbSet<RentedShelf> RentedShelf { get; set; }
+        public DbSet<RentalAgreement> RentalAgreement { get; set; }
+        public DbSet<AgreementLine> AgreementLine { get; set; }
         public DbSet<MonthlySettlement> MonthlySettlement { get; set; }
 
         private readonly string _connectionString;
