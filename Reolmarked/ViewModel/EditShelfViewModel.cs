@@ -53,7 +53,6 @@ namespace Reolmarked.ViewModel
                 OnPropertyChanged();
                 if (_shelfToEdit != null)
                 {
-
                     _shelfToEdit.ShelfTypeId = value;
                 }
             }
@@ -119,13 +118,25 @@ namespace Reolmarked.ViewModel
                 try
                 {
                     using var context = DbContextFactory.CreateContext();
-                    var rentedShelf = context.RentedShelf.FirstOrDefault(r => r.ShelfNumber == ShelfToEdit.ShelfNumber);
+                    var agreementLine = context.AgreementLine.FirstOrDefault(aL => aL.ShelfNumber == ShelfToEdit.ShelfNumber);
 
-                    if (rentedShelf != null)
+                    if (agreementLine != null)
                     {
-                        var renter = context.Renter.FirstOrDefault(r => r.RenterId == rentedShelf.RenterId);
-                        RenterName = renter?.RenterName ?? "Ukendt lejer";
-                        AgreedPrice = rentedShelf.RentedShelfAgreedPrice;
+                        var rentalAgreement = context.RentalAgreement.FirstOrDefault(rA => rA.RentalAgreementId == agreementLine.RentalAgreementId);
+
+                        if (rentalAgreement != null)
+                        {
+                            var renter = context.Renter.FirstOrDefault(r => r.RenterId == rentalAgreement.RenterId);
+                            RenterName = renter?.RenterName ?? "Ukendt lejer";
+
+                            int shelfCountInAgreement = context.AgreementLine.Count(aL => aL.RentalAgreementId == rentalAgreement.RentalAgreementId);
+                            AgreedPrice = rentalAgreement.RentalAgreementTotalPrice / shelfCountInAgreement;
+                        }
+                        else
+                        {
+                            RenterName = "Ingen lejeaftale fundet";
+                            AgreedPrice = 0;
+                        }
                     }
                     else
                     {

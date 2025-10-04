@@ -20,7 +20,6 @@ namespace Reolmarked.ViewModel
     public class ShelfViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<ShelfWithTypeName> _shelfsWithTypeName;
-
         public ICommand EditShelfCommand { get; }
 
         public ObservableCollection<ShelfWithTypeName> ShelfsWithTypeName
@@ -41,25 +40,53 @@ namespace Reolmarked.ViewModel
 
         private async void LoadShelfsAsync()
         {
-            using var context = DbContextFactory.CreateContext();
-
             try
             {
                 List<ShelfWithTypeName> shelfsWithTypeName = await Task.Run(() =>
                 {
+                    using var context = DbContextFactory.CreateContext();
                     List<ShelfWithTypeName> shelfsWithTypeName = new List<ShelfWithTypeName>();
-                    ShelfType shelfTypeToUse;
-                    RentalAgreement rentedShelfToUse;
+
                     var shelfs = context.Shelf.ToList();
-                    var rentedShelf = context.RentedShelf.ToList();
-                    var shelfTypeName = context.ShelfType.ToList();
+                    var rentalAgreements = context.RentalAgreement.ToList();
+                    var agreementLines = context.AgreementLine.ToList();
+                    var shelfTypes = context.ShelfType.ToList();
+
                     foreach (Shelf shelf in shelfs)
                     {
-                        shelfTypeToUse = shelfTypeName.FirstOrDefault(sT => sT.ShelfTypeId == shelf.ShelfTypeId);
-                        rentedShelfToUse = rentedShelf.FirstOrDefault(rS => rS.ShelfNumber == shelf.ShelfNumber);
-                        shelfsWithTypeName.Add(new ShelfWithTypeName(shelf, shelfTypeToUse.ShelfTypeName, shelfTypeToUse.ShelfTypePrice, rentedShelfToUse?.RentedShelfAgreedPrice));
+                        ShelfType shelfType = shelfTypes.FirstOrDefault(sT => sT.ShelfTypeId == shelf.ShelfTypeId);
+
+                        if (shelfType == null)
+                        {
+                            continue;
+                        }
+
+                        decimal? agreedPrice = null;
+
+                        if (shelf.ShelfRented)
+                        {
+                            AgreementLine agreementLine = agreementLines.FirstOrDefault(aL => aL.ShelfNumber == shelf.ShelfNumber);
+
+                            if (agreementLine != null)
+                            {
+                                RentalAgreement rentalAgreement = rentalAgreements.FirstOrDefault(rA => rA.RentalAgreementId == agreementLine.RentalAgreementId);
+
+                                if (rentalAgreement != null)
+                                {
+                                    int shelfCountInAgreement = agreementLines.Count(aL => aL.RentalAgreementId == rentalAgreement.RentalAgreementId);
+                                    agreedPrice = rentalAgreement.RentalAgreementTotalPrice / shelfCountInAgreement;
+                                }
+                            }
+                        }
+
+                        shelfsWithTypeName.Add(new ShelfWithTypeName(
+                            shelf,
+                            shelfType.ShelfTypeName,
+                            shelfType.ShelfTypePrice,
+                            agreedPrice
+                        ));
                     }
-                        
+
                     return shelfsWithTypeName;
                 });
 
@@ -67,7 +94,7 @@ namespace Reolmarked.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fejl ved forbindelse til database: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Fejl ved indlæsning af reoler: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -77,7 +104,6 @@ namespace Reolmarked.ViewModel
             {
                 var editShelfWindow = new EditShelfWindow(shelfWithTypeName.Shelf);
                 editShelfWindow.ShowDialog();
-                OnPropertyChanged();
                 LoadShelfsAsync();
             }
         }

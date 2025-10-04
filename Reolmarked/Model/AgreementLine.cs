@@ -15,6 +15,12 @@ namespace Reolmarked.Model
         private int _shelfNumber;
         private int _rentalAgreementId;
 
+        public AgreementLine(int shelfNumber, int rentalAgreementId)
+        {
+            ShelfNumber = shelfNumber;
+            RentalAgreementId = rentalAgreementId;
+        }
+
         [Key]
         public int AgreementLineId
         {

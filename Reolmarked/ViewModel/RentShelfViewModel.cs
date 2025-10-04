@@ -23,16 +23,18 @@ namespace Reolmarked.ViewModel
         private decimal _rentedAgreedPrice;
         private Renter? _selectedRenter;
         public ObservableCollection<Renter> Renters { get; set; }
-        public ObservableCollection<RentalAgreement> RentedShelfs { get; set; }
+        public ObservableCollection<AgreementLine> AgreementLine { get; set; }
         public ObservableCollection<Shelf> Shelfs { get; set; }
         public ObservableCollection<BookingShelf> BookingShelfs { get; set; }
 
-        public string BtnShelfColor { 
-            get => _BtnShelfColor; 
-            set {
+        public string BtnShelfColor
+        {
+            get => _BtnShelfColor;
+            set
+            {
                 _BtnShelfColor = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public bool BtnShelfBool
@@ -72,7 +74,7 @@ namespace Reolmarked.ViewModel
         {
             using var context = DbContextFactory.CreateContext();
             Renters = new ObservableCollection<Renter>(context.Renter.ToList());
-            RentedShelfs = new ObservableCollection<RentalAgreement>(context.RentedShelf.ToList());
+            AgreementLine = new ObservableCollection<AgreementLine>(context.AgreementLine.ToList());
             Shelfs = new ObservableCollection<Shelf>(context.Shelf.ToList());
             BtnShelfClickedCommand = new RelayCommand(BtnShelfClicked, canExecuteBtnShelfClicked);
             BtnBookShelfClickedCommand = new RelayCommand(BtnBookShelfClicked);
@@ -107,30 +109,72 @@ namespace Reolmarked.ViewModel
 
         public void BtnBookShelfClicked()
         {
+            if (SelectedRenter == null)
+            {
+                MessageBox.Show("Du skal vælge en lejer.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (!BookingShelfs.Any(b => b.ShelfClicked))
             {
                 MessageBox.Show("Du skal have valgt mindst 1 reol.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            RentalAgreement newRentedShelf;
-            Shelf shelfToChange;
-            decimal calculatedPrice = RentedAgreedPrice / BookingShelfs.Count;
 
-            using var context = DbContextFactory.CreateContext();
-            foreach (BookingShelf bookingShelf in BookingShelfs)
+            if (RentedAgreedPrice <= 0)
             {
-                if (bookingShelf.ShelfClicked)
+                MessageBox.Show("Aftalt pris skal være større end 0.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using var context = DbContextFactory.CreateContext();
+
+                var selectedShelfs = BookingShelfs.Where(b => b.ShelfClicked).ToList();
+
+                RentalAgreement newRentalAgreement = new RentalAgreement(
+                    SelectedRenter.RenterId,
+                    DateTime.Now,
+                    RentedAgreedPrice
+                );
+
+                context.RentalAgreement.Add(newRentalAgreement);
+                context.SaveChanges();
+
+                foreach (BookingShelf bookingShelf in selectedShelfs)
                 {
-                    shelfToChange = context.Shelf.FirstOrDefault(r => r.ShelfNumber == bookingShelf.ShelfNumber);
-                    newRentedShelf = new RentalAgreement(bookingShelf.ShelfNumber, SelectedRenter.RenterId, calculatedPrice);
-                    context.RentedShelf.Add(newRentedShelf);
-                    shelfToChange.ShelfRented = true;
-                    context.SaveChanges();
+                    Shelf shelfToChange = context.Shelf.FirstOrDefault(r => r.ShelfNumber == bookingShelf.ShelfNumber);
+                    if (shelfToChange != null)
+                    {
+                        shelfToChange.ShelfRented = true;
+
+                        AgreementLine newAgreementLine = new AgreementLine(
+                            bookingShelf.ShelfNumber,
+                            newRentalAgreement.RentalAgreementId
+                        );
+                        context.AgreementLine.Add(newAgreementLine);
+                    }
                 }
 
+                context.SaveChanges();
+
+                MessageBox.Show($"Lejeaftale oprettet succesfuldt!\n\nLejer: {SelectedRenter.RenterName}\nAntal reoler: {selectedShelfs.Count}\nAftalt pris: {RentedAgreedPrice:C}", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                foreach (var bookingShelf in selectedShelfs)
+                {
+                    bookingShelf.ShelfClicked = false;
+                    bookingShelf.ShelfBooked = true;
+                }
+
+                RentedAgreedPrice = 0;
+                SelectedRenter = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show( $"Fejl ved oprettelse af lejeaftale: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

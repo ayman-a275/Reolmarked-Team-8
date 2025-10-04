@@ -31,7 +31,7 @@ namespace Reolmarked.ViewModel
             {
                 _selectedMonth = value;
                 OnPropertyChanged();
-                LoadSettlements();
+                //LoadSettlements();
             }
         }
 
@@ -54,7 +54,7 @@ namespace Reolmarked.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        /*
         public MonthlySettlementViewModel()
         {
             SettlementSummaries = new ObservableCollection<SettlementSummary>();
@@ -157,7 +157,7 @@ namespace Reolmarked.ViewModel
             IsHistoryVisible = false;
             SelectedRenter = null;
         }
-
+        */
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
