@@ -6,6 +6,12 @@ namespace Reolmarked.Helper
 {
     public class NegativeToTrueConverter : IValueConverter
     {
+        /*
+         Flere steder skal vi vise forskellige farver baseret på beløbets størrelse osv.
+
+         Vores løsning blev for kringlet og for kompliceret, så derfor har vi den her helper class, som blev udarbejdet af AI.
+        */
+
         public static NegativeToTrueConverter Instance { get; } = new NegativeToTrueConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

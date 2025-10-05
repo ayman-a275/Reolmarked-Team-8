@@ -44,6 +44,7 @@ namespace Reolmarked.ViewModel
                 {
                     var renterAgreements = rentalAgreements.Where(ra => ra.RenterId == renter.RenterId).ToList();
 
+                    // Spring lejere over der ikke har nogen aftaler, fik løsning fra AI efter mange forsøg
                     if (!renterAgreements.Any()) continue;
 
                     decimal totalRent = renterAgreements.Sum(ra => ra.RentalAgreementTotalPrice);
@@ -59,6 +60,7 @@ namespace Reolmarked.ViewModel
 
                     var soldProductSerialNumbers = soldProducts.Select(p => p.ProductSerialNumber).ToList();
 
+                    // Distint fjerne duplicates
                     var relevantTransactionIds = transactionLines
                         .Where(tl => soldProductSerialNumbers.Contains(tl.ProductSerialNumber))
                         .Select(tl => tl.TransactionId)
@@ -93,6 +95,7 @@ namespace Reolmarked.ViewModel
                     decimal commission = totalSales * 0.10m;
                     decimal netAmount = totalSales - commission - totalRent;
 
+                    // Vis kun lejere der har noget til gode eller skylder penge
                     if (netAmount != 0)
                     {
                         var summary = new SettlementSummary(

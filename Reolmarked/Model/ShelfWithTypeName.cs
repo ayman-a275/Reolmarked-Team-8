@@ -10,6 +10,8 @@ namespace Reolmarked.Model
 {
     public class ShelfWithTypeName : INotifyPropertyChanged
     {
+        // Klasse til at hjælpe med front end, ikke en del af database.
+
         private Shelf _shelf;
         private string _shelfTypeName;
         private decimal _shelfTypePrice;

@@ -6,6 +6,8 @@ namespace Reolmarked.Model
 {
     public class SettlementSummary : INotifyPropertyChanged
     {
+
+        // Klasse til at hjælpe med front end, ikke en del af database.
         private int _renterId;
         private string _renterName;
         private string _renterAccountNumber;

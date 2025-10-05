@@ -8,6 +8,8 @@ namespace Reolmarked.Model
 {
     public class RentalAgreementWithDetails : INotifyPropertyChanged
     {
+        // Klasse til at hjælpe med front end, ikke en del af database.
+
         private int _rentalAgreementId;
         private int _renterId;
         private string _renterName;

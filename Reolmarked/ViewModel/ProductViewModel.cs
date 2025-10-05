@@ -21,8 +21,11 @@ namespace Reolmarked.ViewModel
 {
     public class ProductViewModel : INotifyPropertyChanged
     {
+        // ObservableCollection gør at UI opdateres automatisk
         public ObservableCollection<Product> _products;
         public ObservableCollection<Shelf> _shelfs;
+       
+        //Valgte at gøre selectedShelf, productDescription og productPrice nullable, så vi kan sætte dem til null efter at have tilføjet et produkt, så combobox'en/tekstboksen er tom igen.
         private Shelf? _selectedShelf { get; set; }
         private string _productSerialNumber;
         private string? _productDescription;
@@ -96,6 +99,8 @@ namespace Reolmarked.ViewModel
         {
             Products = new ObservableCollection<Product>();
             Shelfs = new ObservableCollection<Shelf>();
+
+            //Programmet var meget langsomt, så vi prøvede at teste async, der var ikke rigtig nogle forskel.
             LoadProductsAsync();
             LoadShelfsAsync();
 
@@ -131,6 +136,7 @@ namespace Reolmarked.ViewModel
                 var shelfs = await Task.Run(() =>
                 {
                     using var context = DbContextFactory.CreateContext();
+                    // Henter kun reoler der er udlejet, da produkter kun kan placeres på udlejede reoler
                     var shelfs = context.Shelf.Where(s => s.ShelfRented).ToList();
                     return shelfs;
                 });
@@ -145,6 +151,10 @@ namespace Reolmarked.ViewModel
 
         private async void AddProductBtnClick()
         {
+            /*
+             Tjekker at alle felter er udfyldt.
+             Vi brugte ikke CanExecute fordi vi ville gerne have en MessageBox besked, og det kan man ikke med CanExecute-metode.
+            */
             if (SelectedShelf == null)
             {
                 MessageBox.Show("Reol nummer skal udfyldes.", "Valideringsfejl");
@@ -178,6 +188,7 @@ namespace Reolmarked.ViewModel
 
                 MessageBox.Show("Vare gemt succesfuldt!", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                // Rydder felterne så brugeren kan tilføje næste produkt
                 SelectedShelf = null;
                 ProductSerialNumber = string.Empty;
                 ProductDescription = string.Empty;
@@ -192,6 +203,7 @@ namespace Reolmarked.ViewModel
 
         private void GenerateBarCodeBtnClick()
         {
+            // Bruger vores helper klasse til at lave et unikt 10 cifret nummer
             ProductSerialNumber = SerialNumberGenerator.GenerateRandomString();
         }
 
@@ -208,6 +220,7 @@ namespace Reolmarked.ViewModel
 
         private void EditProduct(object? parameter)
         {
+            // Sikre at parameter er af Product klassen.
             if (parameter is Product product)
             {
                 var editProductWindow = new EditProductWindow(product);
