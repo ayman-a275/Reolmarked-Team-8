@@ -11,7 +11,49 @@ Dette er en WPF desktop applikation udviklet af **Team 8** til et Reolmarked pro
 
 Systemet håndterer udlejning af 80 reoler, produktregistrering med stregkoder, betalingshåndtering og månedlig afregning til lejere.
 
-### 🎯 Projektperiode
+### 📚 Hvad vi vil gøre anderledes til eksamensprojektet
+
+- Vi brugte Entity Framework og committede dag 1 i projektet, fordi det 
+  virkede nemmere at komme i gang med. Da vi senere lærte om prepared 
+  statements, var det for sent at ændre. Til eksamensprojektet skal vi 
+  være opmærksomme på kun at bruge det, vi har lært i semesteret.
+
+- Vores brug af Entity Framework gjorde, at vi ikke havde brug for 
+  repository pattern, da frameworket allerede indeholder denne abstraktion. 
+  Dermed gik vi glip af at demonstrere vores viden inden for dette 
+  designmønster, som er en del af pensum.
+
+- Vi skrev først unit tests dagen inden afleveringen, hvilket betød, at 
+  tests blev en eftertanke. Det blev skrevet i en fart og var dermed ikke 
+  fyldestgørende. Til eksamensprojektet vil vi følge test-driven development 
+  fra start.
+
+- Vores brug af Entity Framework gjorde, at tests skulle bruge NuGet-pakken 
+  InMemory, som krævede en ny ting, vi skulle sætte os ind i - noget vi 
+  ikke kunne nå på én dag. Med simple repository patterns ville testning 
+  have været nemmere.
+
+- Vi brugte UI-elementer (MessageBox) direkte i metoderne i ViewModels, 
+  hvilket gjorde det umuligt at teste metoderne uden at skrive dem om. 
+  Dette er noget, vi skulle have undersøgt og tænkt ind i fra dag 1, 
+  for eksempel ved at bruge interfaces til dialog services.
+
+### 🎯 Hvad vi er glade for
+
+- Vi brugte og lærte meget LINQ, som er et kraftfuldt værktøj til 
+  datamanipulation.
+
+- Vi så styrken ved Entity Framework, selvom det ikke matchede pensum 
+  optimalt. Vi forstår nu både fordelene og ulemperne ved at bruge 
+  frameworks.
+
+- Vi havde en struktureret tilgang fra artefakter → softwareudvikling, 
+  hvilket hjalp os med at holde overblik.
+
+- Vi fik meget indsigt i databasen, herunder normalisering, relationer 
+  og datamodellering.
+
+### ⏱️ Projektperiode
 **02-09-2025 til 06-10-2025**
 
 ## ✨ Funktioner
