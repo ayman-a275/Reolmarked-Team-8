@@ -114,7 +114,7 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Serie nummer" Binding="{Binding ProductSerialNumber}" Width="*"/>
-                        <DataGridTextColumn Header="Reol" Binding="{Binding RackNumber}" Width="80"/>
+                        <DataGridTextColumn Header="Reol" Binding="{Binding ShelfNumber}" Width="80"/>
                         <DataGridTextColumn Header="Pris" Binding="{Binding ProductPrice, StringFormat=C, ConverterCulture=da-DK}" Width="120">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">

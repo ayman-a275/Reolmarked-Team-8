@@ -312,7 +312,7 @@
         <Setter Property="Background" Value="Green"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Opacity" Value="0.3"/>
+        <Setter Property="Opacity" Value="0.7"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>

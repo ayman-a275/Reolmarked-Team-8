@@ -94,6 +94,7 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -101,7 +102,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,0,0,8">
-                                        <TextBlock Text="Serie nummer: " 
+                                        <TextBlock Text="Lejer ID: " 
                                            FontWeight="SemiBold" 
                                            FontSize="14" 
                                            Foreground="#495057"/>
@@ -119,7 +120,7 @@
                                        VerticalAlignment="Center"/>
 
                                     <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
-                                        <TextBlock Text="Reol: " 
+                                        <TextBlock Text="Tlf. nr.: " 
                                            FontWeight="SemiBold" 
                                            FontSize="13" 
                                            Foreground="#495057"/>
@@ -128,19 +129,25 @@
                                            Foreground="#212529"/>
                                     </StackPanel>
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" 
-                                       Text="{Binding RenterEmail}" 
-                                       FontSize="13" 
-                                       Foreground="#6c757d" 
-                                       TextWrapping="Wrap" 
-                                       Margin="0,0,10,0"/>
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="E-mail: " 
+                                           FontWeight="SemiBold" 
+                                           FontSize="13" 
+                                           Foreground="#495057"/>
+                                        <TextBlock Text="{Binding RenterEmail}" 
+                                           FontSize="13" 
+                                           Foreground="#212529"/>
+                                    </StackPanel>
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" 
-                                       Text="{Binding RenterAccountNumber}" 
-                                       FontSize="13" 
-                                       Foreground="#6c757d" 
-                                       TextWrapping="Wrap" 
-                                       Margin="0,0,10,0"/>
+                                    <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="Reg. og Kontonr.: " 
+                                           FontWeight="SemiBold" 
+                                           FontSize="13" 
+                                           Foreground="#495057"/>
+                                        <TextBlock Text="{Binding RenterAccountNumber}" 
+                                           FontSize="13" 
+                                           Foreground="#212529"/>
+                                    </StackPanel>
 
                                     <Button Grid.Row="2" Grid.Column="1" 
                                     Content="Redigere" 

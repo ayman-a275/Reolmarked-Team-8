@@ -99,7 +99,7 @@ namespace Reolmarked.ViewModel
                 return;
             }
 
-            var newRenter = new Renter(RenterName, RenterEmail, RenterTelephoneNumber, RenterAccountNumber);
+            var newRenter = new Renter(RenterName, RenterTelephoneNumber, RenterEmail, RenterAccountNumber);
             try
             {
                 await Task.Run(() =>

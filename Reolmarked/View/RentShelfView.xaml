@@ -11,6 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,5,0">
@@ -39,10 +40,10 @@
                         <Button x:Name="BtnShelf6" Command="{Binding BtnShelfClickedCommand}" CommandParameter="5" HorizontalAlignment="Left" Margin="20,473,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[5].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf7" Command="{Binding BtnShelfClickedCommand}" CommandParameter="6" HorizontalAlignment="Left" Margin="20,413,0,0" VerticalAlignment="Top" Width="30" Height="60" Background="{Binding BookingShelfs[6].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf8" Command="{Binding BtnShelfClickedCommand}" CommandParameter="7" HorizontalAlignment="Left" Margin="20,354,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[7].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf9" Command="{Binding BtnShelfClickedCommand}" CommandParameter="8" HorizontalAlignment="Left" Margin="19,301,0,0" VerticalAlignment="Top" Width="29" Height="53" Background="{Binding BookingShelfs[8].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf9" Command="{Binding BtnShelfClickedCommand}" CommandParameter="8" HorizontalAlignment="Left" Margin="19,301,0,0" VerticalAlignment="Top" Width="30" Height="53" Background="{Binding BookingShelfs[8].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf10" Command="{Binding BtnShelfClickedCommand}" CommandParameter="9" HorizontalAlignment="Left" Margin="20,241,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[9].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf11" Command="{Binding BtnShelfClickedCommand}" CommandParameter="10" HorizontalAlignment="Left" Margin="20,181,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[10].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf12" Command="{Binding BtnShelfClickedCommand}" CommandParameter="11" HorizontalAlignment="Left" Margin="19,121,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[11].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf12" Command="{Binding BtnShelfClickedCommand}" CommandParameter="11" HorizontalAlignment="Left" Margin="21,121,0,0" VerticalAlignment="Top" Width="28" Height="60" Background="{Binding BookingShelfs[11].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf13" Command="{Binding BtnShelfClickedCommand}" CommandParameter="12" HorizontalAlignment="Left" Margin="21,61,0,0" VerticalAlignment="Top" Width="28" Height="60" Background="{Binding BookingShelfs[12].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf14" Command="{Binding BtnShelfClickedCommand}" CommandParameter="13" HorizontalAlignment="Left" Margin="43,16,0,0" VerticalAlignment="Top" Width="59" Height="29" Background="{Binding BookingShelfs[13].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf15" Command="{Binding BtnShelfClickedCommand}" CommandParameter="14" HorizontalAlignment="Left" Margin="102,16,0,0" VerticalAlignment="Top" Width="60" Height="29" Background="{Binding BookingShelfs[14].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
@@ -69,7 +70,7 @@
                         <Button x:Name="BtnShelf36" Command="{Binding BtnShelfClickedCommand}" CommandParameter="35" HorizontalAlignment="Left" Margin="342,241,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[35].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf37" Command="{Binding BtnShelfClickedCommand}" CommandParameter="36" HorizontalAlignment="Left" Margin="402,241,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[36].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf38" Command="{Binding BtnShelfClickedCommand}" CommandParameter="37" HorizontalAlignment="Left" Margin="462,241,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[37].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf39" Command="{Binding BtnShelfClickedCommand}" CommandParameter="38" HorizontalAlignment="Left" Margin="103,324,0,0" VerticalAlignment="Top" Width="59" Height="27" Background="{Binding BookingShelfs[38].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf39" Command="{Binding BtnShelfClickedCommand}" CommandParameter="38" HorizontalAlignment="Left" Margin="103,324,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[38].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf40" Command="{Binding BtnShelfClickedCommand}" CommandParameter="39" HorizontalAlignment="Left" Margin="163,324,0,0" VerticalAlignment="Top" Width="58" Height="30" Background="{Binding BookingShelfs[39].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf41" Command="{Binding BtnShelfClickedCommand}" CommandParameter="40" HorizontalAlignment="Left" Margin="222,324,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[40].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf42" Command="{Binding BtnShelfClickedCommand}" CommandParameter="41" HorizontalAlignment="Left" Margin="282,324,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[41].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
@@ -85,20 +86,20 @@
                         <Button x:Name="BtnShelf52" Command="{Binding BtnShelfClickedCommand}" CommandParameter="51" HorizontalAlignment="Left" Margin="462,354,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[51].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf53" Command="{Binding BtnShelfClickedCommand}" CommandParameter="52" HorizontalAlignment="Left" Margin="102,451,0,0" VerticalAlignment="Top" Width="60" Height="28" Background="{Binding BookingShelfs[52].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf54" Command="{Binding BtnShelfClickedCommand}" CommandParameter="53" HorizontalAlignment="Left" Margin="163,451,0,0" VerticalAlignment="Top" Width="58" Height="28" Background="{Binding BookingShelfs[53].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf55" Command="{Binding BtnShelfClickedCommand}" CommandParameter="54" HorizontalAlignment="Left" Margin="223,451,0,0" VerticalAlignment="Top" Width="59" Height="28" Background="{Binding BookingShelfs[54].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf56" Command="{Binding BtnShelfClickedCommand}" CommandParameter="55" HorizontalAlignment="Left" Margin="282,451,0,0" VerticalAlignment="Top" Width="60" Height="28" Background="{Binding BookingShelfs[55].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf57" Command="{Binding BtnShelfClickedCommand}" CommandParameter="56" HorizontalAlignment="Left" Margin="343,451,0,0" VerticalAlignment="Top" Width="59" Height="28" Background="{Binding BookingShelfs[56].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf58" Command="{Binding BtnShelfClickedCommand}" CommandParameter="57" HorizontalAlignment="Left" Margin="402,451,0,0" VerticalAlignment="Top" Width="60" Height="28" Background="{Binding BookingShelfs[57].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf59" Command="{Binding BtnShelfClickedCommand}" CommandParameter="58" HorizontalAlignment="Left" Margin="462,451,0,0" VerticalAlignment="Top" Width="60" Height="28" Background="{Binding BookingShelfs[58].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf60" Command="{Binding BtnShelfClickedCommand}" CommandParameter="59" HorizontalAlignment="Left" Margin="104,479,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[59].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf61" Command="{Binding BtnShelfClickedCommand}" CommandParameter="60" HorizontalAlignment="Left" Margin="162,479,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[60].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf62" Command="{Binding BtnShelfClickedCommand}" CommandParameter="61" HorizontalAlignment="Left" Margin="224,479,0,0" VerticalAlignment="Top" Width="58" Height="30" Background="{Binding BookingShelfs[61].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf63" Command="{Binding BtnShelfClickedCommand}" CommandParameter="62" HorizontalAlignment="Left" Margin="283,479,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[62].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf64" Command="{Binding BtnShelfClickedCommand}" CommandParameter="63" HorizontalAlignment="Left" Margin="342,479,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[63].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf65" Command="{Binding BtnShelfClickedCommand}" CommandParameter="64" HorizontalAlignment="Left" Margin="404,479,0,0" VerticalAlignment="Top" Width="58" Height="30" Background="{Binding BookingShelfs[64].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf66" Command="{Binding BtnShelfClickedCommand}" CommandParameter="65" HorizontalAlignment="Left" Margin="464,479,0,0" VerticalAlignment="Top" Width="58" Height="30" Background="{Binding BookingShelfs[65].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf67" Command="{Binding BtnShelfClickedCommand}" CommandParameter="66" HorizontalAlignment="Left" Margin="104,569,0,0" VerticalAlignment="Top" Width="58" Height="29" Background="{Binding BookingShelfs[66].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf68" Command="{Binding BtnShelfClickedCommand}" CommandParameter="67" HorizontalAlignment="Left" Margin="164,571,0,0" VerticalAlignment="Top" Width="58" Height="29" Background="{Binding BookingShelfs[67].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf55" Command="{Binding BtnShelfClickedCommand}" CommandParameter="54" HorizontalAlignment="Left" Margin="223,451,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[54].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf56" Command="{Binding BtnShelfClickedCommand}" CommandParameter="55" HorizontalAlignment="Left" Margin="282,451,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[55].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf57" Command="{Binding BtnShelfClickedCommand}" CommandParameter="56" HorizontalAlignment="Left" Margin="343,451,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[56].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf58" Command="{Binding BtnShelfClickedCommand}" CommandParameter="57" HorizontalAlignment="Left" Margin="402,451,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[57].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf59" Command="{Binding BtnShelfClickedCommand}" CommandParameter="58" HorizontalAlignment="Left" Margin="462,451,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[58].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf60" Command="{Binding BtnShelfClickedCommand}" CommandParameter="59" HorizontalAlignment="Left" Margin="103,479,0,0" VerticalAlignment="Top" Width="60" Height="32" Background="{Binding BookingShelfs[59].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf61" Command="{Binding BtnShelfClickedCommand}" CommandParameter="60" HorizontalAlignment="Left" Margin="162,479,0,0" VerticalAlignment="Top" Width="59" Height="32" Background="{Binding BookingShelfs[60].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf62" Command="{Binding BtnShelfClickedCommand}" CommandParameter="61" HorizontalAlignment="Left" Margin="223,481,0,0" VerticalAlignment="Top" Width="58" Height="30" Background="{Binding BookingShelfs[61].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf63" Command="{Binding BtnShelfClickedCommand}" CommandParameter="62" HorizontalAlignment="Left" Margin="283,481,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[62].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf64" Command="{Binding BtnShelfClickedCommand}" CommandParameter="63" HorizontalAlignment="Left" Margin="342,481,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[63].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf65" Command="{Binding BtnShelfClickedCommand}" CommandParameter="64" HorizontalAlignment="Left" Margin="402,481,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[64].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf66" Command="{Binding BtnShelfClickedCommand}" CommandParameter="65" HorizontalAlignment="Left" Margin="462,481,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[65].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf67" Command="{Binding BtnShelfClickedCommand}" CommandParameter="66" HorizontalAlignment="Left" Margin="103,571,0,0" VerticalAlignment="Top" Width="59" Height="29" Background="{Binding BookingShelfs[66].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf68" Command="{Binding BtnShelfClickedCommand}" CommandParameter="67" HorizontalAlignment="Left" Margin="162,571,0,0" VerticalAlignment="Top" Width="60" Height="29" Background="{Binding BookingShelfs[67].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf69" Command="{Binding BtnShelfClickedCommand}" CommandParameter="68" HorizontalAlignment="Left" Margin="223,571,0,0" VerticalAlignment="Top" Width="59" Height="29" Background="{Binding BookingShelfs[68].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf70" Command="{Binding BtnShelfClickedCommand}" CommandParameter="69" HorizontalAlignment="Left" Margin="283,571,0,0" VerticalAlignment="Top" Width="59" Height="29" Background="{Binding BookingShelfs[69].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf71" Command="{Binding BtnShelfClickedCommand}" CommandParameter="70" HorizontalAlignment="Left" Margin="342,571,0,0" VerticalAlignment="Top" Width="60" Height="29" Background="{Binding BookingShelfs[70].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
@@ -106,19 +107,19 @@
                         <Button x:Name="BtnShelf73" Command="{Binding BtnShelfClickedCommand}" CommandParameter="72" HorizontalAlignment="Left" Margin="162,601,0,0" VerticalAlignment="Top" Width="60" Height="29" Background="{Binding BookingShelfs[72].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf74" Command="{Binding BtnShelfClickedCommand}" CommandParameter="73" HorizontalAlignment="Left" Margin="223,601,0,0" VerticalAlignment="Top" Width="59" Height="29" Background="{Binding BookingShelfs[73].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf75" Command="{Binding BtnShelfClickedCommand}" CommandParameter="74" HorizontalAlignment="Left" Margin="283,600,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[74].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf76" Command="{Binding BtnShelfClickedCommand}" CommandParameter="75" HorizontalAlignment="Left" Margin="343,600,0,0" VerticalAlignment="Top" Width="59" Height="30" Background="{Binding BookingShelfs[75].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf76" Command="{Binding BtnShelfClickedCommand}" CommandParameter="75" HorizontalAlignment="Left" Margin="342,600,0,0" VerticalAlignment="Top" Width="60" Height="30" Background="{Binding BookingShelfs[75].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf77" Command="{Binding BtnShelfClickedCommand}" CommandParameter="76" HorizontalAlignment="Left" Margin="94,713,0,0" VerticalAlignment="Top" Width="30" Height="60" Background="{Binding BookingShelfs[76].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf78" Command="{Binding BtnShelfClickedCommand}" CommandParameter="77" HorizontalAlignment="Left" Margin="124,713,0,0" VerticalAlignment="Top" Width="32" Height="60" Background="{Binding BookingShelfs[77].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
-                        <Button x:Name="BtnShelf79" Command="{Binding BtnShelfClickedCommand}" CommandParameter="78" HorizontalAlignment="Left" Margin="200,713,0,0" VerticalAlignment="Top" Width="29" Height="60" Background="{Binding BookingShelfs[78].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
+                        <Button x:Name="BtnShelf79" Command="{Binding BtnShelfClickedCommand}" CommandParameter="78" HorizontalAlignment="Left" Margin="200,713,0,0" VerticalAlignment="Top" Width="31" Height="60" Background="{Binding BookingShelfs[78].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                         <Button x:Name="BtnShelf80" Command="{Binding BtnShelfClickedCommand}" CommandParameter="79" HorizontalAlignment="Left" Margin="231,713,0,0" VerticalAlignment="Top" Width="30" Height="60" Background="{Binding BookingShelfs[79].ShelfColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ShelfButton}"/>
                     </Grid>
                 </Grid>
             </ScrollViewer>
         </Border>
 
-        <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="5,0,0,0">
+        <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="5,0">
             <StackPanel>
-                <TextBlock Text="Booking Detaljer" 
+                <TextBlock Text="Ny Booking" 
                            FontSize="24" 
                            FontWeight="Bold" 
                            Foreground="#212529" 
@@ -157,12 +158,27 @@
                          SelectedItem="{Binding SelectedRenter}"
                          Height="40"
                          FontSize="14"
-                         Margin="0,0,0,25"/>
+                         Margin="0,0,0,15"/>
 
-                <Label Content="Pris (kr.)" Style="{StaticResource FormLabel}"/>
+                <Label Content="Aftalt månedlig pris (kr.)" Style="{StaticResource FormLabel}"/>
                 <TextBox Text="{Binding RentedAgreedPrice, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,25"/>
+                         Margin="0,0,0,15"/>
+
+                <Border Background="#e7f3ff" 
+                        CornerRadius="6" 
+                        Padding="15" 
+                        Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="Normal Lejepris" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="14" 
+                                   Margin="0,0,0,10"/>
+                        <TextBlock Text="1 reol: 850 kr./måned" FontSize="12" Margin="0,2"/>
+                        <TextBlock Text="2-3 reoler: 825 kr./måned/reol" FontSize="12" Margin="0,2"/>
+                        <TextBlock Text="4+ reoler: 800 kr./måned/reol" FontSize="12" Margin="0,2"/>
+                    </StackPanel>
+                </Border>
 
                 <Button Command="{Binding BtnBookShelfClickedCommand}" 
                         Content="Opret Leje" 
@@ -172,41 +188,109 @@
                         FontSize="16"
                         Margin="0,0,0,15"/>
 
-                <Separator Background="#dee2e6" Margin="0,25,0,20"/>
-
-                <TextBlock Text="Valgte Reoler" 
-                           FontWeight="SemiBold" 
-                           FontSize="16" 
-                           Foreground="#495057"
-                           Margin="0,0,0,10"/>
-
-                <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding BookingShelfs}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="8,5" Margin="0,2">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ShelfClicked}" Value="True">
-                                                    <Setter Property="Background" Value="#e7f3ff"/>
-                                                    <Setter Property="BorderBrush" Value="#007bff"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                    <Setter Property="CornerRadius" Value="4"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding ShelfClicked, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock Text="Reol " Foreground="#495057"/>
-                                        <TextBlock Text="{Binding ShelfNumber}" FontWeight="Bold" Foreground="#007bff"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
             </StackPanel>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="5,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <TextBlock Text="Lejeaftaler" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#212529"
+                               VerticalAlignment="Center"/>
+                    <Border Background="#007bff" 
+                            CornerRadius="5" 
+                            Padding="8,4" 
+                            Margin="15,0,0,0">
+                        <TextBlock Text="{Binding RentalAgreements.Count}" 
+                                   Foreground="White" 
+                                   FontWeight="Bold"
+                                   FontSize="14"/>
+                    </Border>
+                </StackPanel>
+
+                <ListView Grid.Row="2" 
+                          ItemsSource="{Binding RentalAgreements, Mode=TwoWay}" 
+                          Background="White"
+                          BorderBrush="#dee2e6"
+                          BorderThickness="1"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          AlternationCount="2">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent" 
+                                    Padding="15"
+                                    Margin="5"
+                                    CornerRadius="6"
+                                    BorderBrush="#dee2e6"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" 
+                                               Text="{Binding RenterName}" 
+                                               FontWeight="Bold" 
+                                               FontSize="16" 
+                                               Foreground="#212529"
+                                               Margin="0,0,0,8"/>
+
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Aftalt pris: " FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                                        <TextBlock Text="{Binding RentalAgreementTotalPrice, StringFormat='{}{0:C}', ConverterCulture=da-DK}" FontSize="13" Foreground="#28a745" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Antal reoler: " FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                                        <TextBlock Text="{Binding ShelfCount}" FontSize="13" Foreground="#212529"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="3" Margin="0,0,0,8">
+                                        <TextBlock Text="Reoler:" FontWeight="SemiBold" FontSize="12" Foreground="#495057" Margin="0,0,0,3"/>
+                                        <TextBlock Text="{Binding ShelfNumbersDisplay}" 
+                                                   FontSize="11" 
+                                                   Foreground="#6c757d" 
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Row="4" 
+                                            Content="Slet aftale" 
+                                            Command="{Binding DataContext.DeleteRentalAgreementCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource DangerButton}"
+                                            HorizontalAlignment="Left"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
