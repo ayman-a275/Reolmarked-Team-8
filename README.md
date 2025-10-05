@@ -140,7 +140,7 @@ cd reolmarked
 ```
 
 ### Trin 2: Konfigurer Database
-Projektet er konfigureret med en **online database** i appsettings.Production.json, som du kan bruge med det samme. Denne database er allerede sat op og klar til brug.
+Projektet er konfigureret med en **online database** i appsettings.Production.json via smarterasp.net, som du kan bruge med det samme. Denne database er allerede sat op og klar til brug.
 Hvis den online database er langsom eller ikke virker, kan du følge guiden nedenfor for at oprette en lokal database.
 
 Opret Lokal Database **(Valgfrit)**
