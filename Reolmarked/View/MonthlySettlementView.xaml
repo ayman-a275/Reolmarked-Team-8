@@ -10,188 +10,143 @@
              Background="#f8f9fa">
 
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Border Style="{StaticResource CardStyle}" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{StaticResource CardStyle}" Margin="10,10,10,5">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Månedlig Afregning" 
-                           FontSize="28" 
-                           FontWeight="Bold" 
-                           Foreground="#212529" 
-                           VerticalAlignment="Center"
-                           Margin="0,0,30,0"/>
-
-                <Label Content="Måned:" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,10,0"/>
-                <DatePicker SelectedDate="{Binding SelectedMonth, Mode=TwoWay}" 
-                           VerticalAlignment="Center"
-                           Margin="0,0,20,0"/>
-
-                <Button Command="{Binding GenerateSettlementCommand}" 
-                        Content="Generer Afregning" 
-                        Style="{StaticResource PrimaryButton}"/>
-            </StackPanel>
-        </Border>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="10,5,5,10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" 
-                               Text="Lejeroversigt" 
-                               FontSize="20" 
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <TextBlock Text="Udestående Afregninger" 
+                               FontSize="24" 
                                FontWeight="Bold" 
-                               Foreground="#212529" 
-                               Margin="0,0,0,15"/>
+                               Foreground="#212529"
+                               VerticalAlignment="Center"/>
+                    <Border Background="#007bff" 
+                            CornerRadius="5" 
+                            Padding="8,4" 
+                            Margin="15,0,0,0">
+                        <TextBlock Text="{Binding SettlementSummaries.Count}" 
+                                   Foreground="White" 
+                                   FontWeight="Bold"
+                                   FontSize="14"/>
+                    </Border>
+                </StackPanel>
 
-                    <DataGrid Grid.Row="1" 
-                             ItemsSource="{Binding SettlementSummaries}"
-                             AutoGenerateColumns="False"
-                             CanUserAddRows="False"
-                             CanUserDeleteRows="False"
-                             CanUserReorderColumns="False"
-                             CanUserResizeRows="False"
-                             GridLinesVisibility="None"
-                             HeadersVisibility="Column"
-                             SelectionMode="Single"
-                             Background="White"
-                             RowBackground="White"
-                             AlternatingRowBackground="#f8f9fa">
+                <ListView Grid.Row="1" 
+                         ItemsSource="{Binding SettlementSummaries}"
+                         Background="White"
+                         BorderBrush="#dee2e6"
+                         BorderThickness="1"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         AlternationCount="2">
 
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Lejer" Binding="{Binding RenterName}" Width="150"/>
-                            <DataGridTextColumn Header="Kontonummer" Binding="{Binding RenterAccountNumber}" Width="120"/>
-                            <DataGridTextColumn Header="Total Leje" Binding="{Binding TotalRent, StringFormat=C}" Width="100"/>
-                            <DataGridTextColumn Header="Salg" Binding="{Binding TotalSales, StringFormat=C}" Width="100"/>
-                            <DataGridTextColumn Header="Kommission" Binding="{Binding Commission, StringFormat=C}" Width="100"/>
-                            <DataGridTextColumn Header="Netto Beløb" Binding="{Binding NetAmount, StringFormat=C}" Width="100"/>
-                            <DataGridTemplateColumn Header="Handlinger" Width="100">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="Historik" 
-                                               Command="{Binding DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                               CommandParameter="{Binding}"
-                                               Style="{StaticResource SecondaryButton}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="15"
+                                    Margin="5"
+                                    CornerRadius="6"
+                                    BorderThickness="2">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:NegativeToTrueConverter.Instance}}" Value="True">
+                                                <Setter Property="Background" Value="#f8d7da"/>
+                                                <Setter Property="BorderBrush" Value="#dc3545"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:PositiveToTrueConverter.Instance}}" Value="True">
+                                                <Setter Property="Background" Value="#d4edda"/>
+                                                <Setter Property="BorderBrush" Value="#28a745"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
 
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Setter Property="Background" Value="White"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:NegativeToTrueConverter.Instance}}" Value="True">
-                                        <Setter Property="Background" Value="#f8d7da"/>
-                                        <Setter Property="Foreground" Value="#721c24"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:PositiveToTrueConverter.Instance}}" Value="True">
-                                        <Setter Property="Background" Value="#d4edda"/>
-                                        <Setter Property="Foreground" Value="#155724"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.RowStyle>
-                    </DataGrid>
-                </Grid>
-            </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="1" 
-                   Style="{StaticResource CardStyle}" 
-                   Margin="5,5,10,10"
-                   Width="400"
-                   Visibility="{Binding IsHistoryVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,8">
+                                        <TextBlock Text="{Binding RenterName}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="18" 
+                                                   Foreground="#212529"/>
+                                        <TextBlock FontSize="14" 
+                                                   Foreground="#6c757d"
+                                                   Margin="0,2,0,0">
+                                            <Run Text="Kontonr: "/>
+                                            <Run Text="{Binding RenterAccountNumber}" FontWeight="SemiBold"/>
+                                        </TextBlock>
+                                    </StackPanel>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
-                        <TextBlock Text="Historik for " 
-                                  FontSize="18" 
-                                  FontWeight="Bold" 
-                                  Foreground="#212529"/>
-                        <TextBlock Text="{Binding SelectedRenter.RenterName}" 
-                                  FontSize="18" 
-                                  FontWeight="Bold" 
-                                  Foreground="#007bff"/>
-                    </StackPanel>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" 
+                                               Text="{Binding NetAmount, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                               FontWeight="Bold" 
+                                               FontSize="24" 
+                                               VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:NegativeToTrueConverter.Instance}}" Value="True">
+                                                        <Setter Property="Foreground" Value="#dc3545"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding NetAmount, Converter={x:Static helper:PositiveToTrueConverter.Instance}}" Value="True">
+                                                        <Setter Property="Foreground" Value="#28a745"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
 
-                    <Grid Grid.Row="1" Margin="0,0,0,15">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                               Orientation="Horizontal" 
+                                               Margin="0,8,0,8">
+                                        <TextBlock Text="Leje: " FontWeight="SemiBold" Foreground="#495057"/>
+                                        <TextBlock Text="{Binding TotalRent, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                                   Foreground="#212529" Margin="0,0,20,0"/>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Kontonummer:" FontWeight="SemiBold"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedRenter.RenterAccountNumber}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Aktuelt saldo:" FontWeight="SemiBold"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedRenter.NetAmount, StringFormat=C}">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedRenter.NetAmount, Converter={x:Static helper:NegativeToTrueConverter.Instance}}" Value="True">
-                                            <Setter Property="Foreground" Value="#dc3545"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding SelectedRenter.NetAmount, Converter={x:Static helper:PositiveToTrueConverter.Instance}}" Value="True">
-                                            <Setter Property="Foreground" Value="#28a745"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
+                                        <TextBlock Text="Salg: " FontWeight="SemiBold" Foreground="#495057"/>
+                                        <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                                   Foreground="#212529" Margin="0,0,20,0"/>
 
-                    <DataGrid Grid.Row="2" 
-                             ItemsSource="{Binding SettlementHistory}"
-                             AutoGenerateColumns="False"
-                             CanUserAddRows="False"
-                             CanUserDeleteRows="False"
-                             CanUserReorderColumns="False"
-                             CanUserResizeRows="False"
-                             GridLinesVisibility="Horizontal"
-                             HeadersVisibility="Column"
-                             Background="White"
-                             RowBackground="White"
-                             AlternatingRowBackground="#f8f9fa">
+                                        <TextBlock Text="Kommission: " FontWeight="SemiBold" Foreground="#495057"/>
+                                        <TextBlock Text="{Binding Commission, StringFormat='{}{0:C}', ConverterCulture=da-DK}" 
+                                                   Foreground="#212529"/>
+                                    </StackPanel>
 
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Dato" Binding="{Binding SettlementDate, StringFormat=yyyy-MM}" Width="70"/>
-                            <DataGridTextColumn Header="Leje" Binding="{Binding TotalRent, StringFormat=C}" Width="70"/>
-                            <DataGridTextColumn Header="Salg" Binding="{Binding TotalSales, StringFormat=C}" Width="70"/>
-                            <DataGridTextColumn Header="Komm." Binding="{Binding Commission, StringFormat=C}" Width="60"/>
-                            <DataGridTextColumn Header="Netto" Binding="{Binding NetAmount, StringFormat=C}" Width="70"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                    <Button Grid.Row="2" Grid.Column="1" 
+                                           Content="Marker som betalt" 
+                                           Command="{Binding DataContext.MarkAsPaidCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                           CommandParameter="{Binding}"
+                                           Style="{StaticResource SuccessButton}"
+                                           Padding="15,8"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-                    <Button Grid.Row="3" 
-                           Command="{Binding CloseHistoryCommand}" 
-                           Content="Luk" 
-                           Style="{StaticResource SecondaryButton}"
-                           HorizontalAlignment="Right"
-                           Margin="0,15,0,0"/>
-                </Grid>
-            </Border>
-        </Grid>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

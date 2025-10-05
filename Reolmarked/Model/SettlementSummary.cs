@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reolmarked.Model
 {
@@ -17,9 +13,9 @@ namespace Reolmarked.Model
         private decimal _totalSales;
         private decimal _commission;
         private decimal _netAmount;
-        private string _statusColor;
+        private bool _isPaid;
 
-        public SettlementSummary(int renterId, string renterName, string renterAccountNumber, decimal totalRent, decimal totalSales, decimal commission)
+        public SettlementSummary(int renterId, string renterName, string renterAccountNumber, decimal totalRent, decimal totalSales, decimal commission, bool isPaid = false)
         {
             RenterId = renterId;
             RenterName = renterName;
@@ -28,7 +24,7 @@ namespace Reolmarked.Model
             TotalSales = totalSales;
             Commission = commission;
             NetAmount = totalSales - commission - totalRent;
-            StatusColor = NetAmount >= 0 ? "#28a745" : "#dc3545";
+            IsPaid = isPaid;
         }
 
         public int RenterId
@@ -68,6 +64,7 @@ namespace Reolmarked.Model
             {
                 _totalRent = value;
                 OnPropertyChanged();
+                UpdateNetAmount();
             }
         }
 
@@ -78,6 +75,7 @@ namespace Reolmarked.Model
             {
                 _totalSales = value;
                 OnPropertyChanged();
+                UpdateNetAmount();
             }
         }
 
@@ -88,6 +86,7 @@ namespace Reolmarked.Model
             {
                 _commission = value;
                 OnPropertyChanged();
+                UpdateNetAmount();
             }
         }
 
@@ -97,19 +96,23 @@ namespace Reolmarked.Model
             set
             {
                 _netAmount = value;
-                StatusColor = value >= 0 ? "#28a745" : "#dc3545";
                 OnPropertyChanged();
             }
         }
 
-        public string StatusColor
+        public bool IsPaid
         {
-            get => _statusColor;
+            get => _isPaid;
             set
             {
-                _statusColor = value;
+                _isPaid = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void UpdateNetAmount()
+        {
+            NetAmount = TotalSales - Commission - TotalRent;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -120,4 +123,3 @@ namespace Reolmarked.Model
         }
     }
 }
-
