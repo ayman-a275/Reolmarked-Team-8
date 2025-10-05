@@ -13,6 +13,8 @@ namespace Reolmarked.Tests
          I stedet for at teste private async void AddProductBtnClick() i ProductViewModel, så tester den blot var product = new Product(), 
          som ikke rigtigt fortæller om programmet fungere eller ej.
          Det skal selvfølelig gøres bedre til eksamensprojektet.
+
+         Vi bruger UI elementer som MessageBox.Show() i vores metoder som kræver at vi bygger det om for at muliggøre tests af selve metoderne, noget vi ikke har tid til.
         */
         #region Vare Tests
 
